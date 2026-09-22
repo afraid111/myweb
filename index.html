@@ -1,11 +1,466 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <title>我的网页</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>碳迹可信 · 碳排放数据可信存证与审计平台</title>
+<style>
+  :root{
+    --bg:#f4f7f6; --card:#ffffff; --line:#e2e8f0;
+    --primary:#0d9488; --primary-dark:#115e59; --ink:#0f172a; --muted:#64748b;
+    --ok:#16a34a; --ok-bg:#f0fdf4; --warn:#d97706; --warn-bg:#fffbeb;
+    --bad:#dc2626; --bad-bg:#fef2f2;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    font-family:"Segoe UI","Microsoft YaHei",system-ui,sans-serif;
+    background:var(--bg); color:var(--ink); line-height:1.6; padding:24px;
+  }
+  .wrap{max-width:1180px; margin:0 auto;}
+  header{
+    background:linear-gradient(135deg,#115e59,#0d9488);
+    color:#fff; border-radius:14px; padding:26px 30px; margin-bottom:20px;
+  }
+  header h1{font-size:24px; letter-spacing:1px;}
+  header p{margin-top:6px; opacity:.92; font-size:14px;}
+  .grid{display:grid; grid-template-columns:360px 1fr; gap:20px; align-items:start;}
+  @media (max-width:900px){ .grid{grid-template-columns:1fr;} }
+  .card{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:20px;}
+  .card h2{font-size:16px; margin-bottom:14px; color:var(--primary-dark);}
+  label{display:block; font-size:13px; color:var(--muted); margin:12px 0 4px;}
+  input,select{
+    width:100%; padding:9px 11px; border:1px solid var(--line); border-radius:8px;
+    font-size:14px; background:#fff; color:var(--ink); font-family:inherit;
+  }
+  input:focus,select:focus{outline:2px solid var(--primary); outline-offset:-1px;}
+  .calc{background:#f0fdfa; border:1px dashed var(--primary); border-radius:8px;
+    padding:10px 12px; margin-top:14px; font-size:14px;}
+  .calc b{color:var(--primary-dark); font-size:18px;}
+  .btn{
+    display:block; width:100%; padding:11px; border:none; border-radius:9px;
+    font-size:15px; font-weight:600; cursor:pointer; color:#fff; margin-top:16px;
+    transition:filter .15s;
+  }
+  .btn:hover{filter:brightness(1.06);}
+  .btn-primary{background:var(--primary);}
+  .btn-verify{background:#2563eb;}
+  .btn-danger{background:#f1f5f9; color:var(--bad); border:1px solid #fecaca; margin-top:8px;}
+  .btn-reset{background:#f1f5f9; color:var(--muted); margin-top:8px;}
+  .statusbar{
+    display:flex; align-items:center; gap:8px; flex-wrap:wrap;
+    background:var(--card); border:1px solid var(--line); border-radius:12px;
+    padding:14px 18px; margin-bottom:16px;
+  }
+  .pill{font-size:13px; padding:4px 12px; border-radius:999px; background:#eef2f7; color:var(--muted);}
+  .pill.ok{background:var(--ok-bg); color:var(--ok); border:1px solid #bbf7d0;}
+  .pill.bad{background:var(--bad-bg); color:var(--bad); border:1px solid #fecaca;}
+  .chain{display:flex; flex-direction:column; gap:10px;}
+  .block{
+    border:1px solid var(--line); border-radius:10px; padding:14px 16px; background:#fff;
+    position:relative;
+  }
+  .block.tampered{border-color:var(--bad); background:var(--bad-bg);}
+  .block.suspect{border-color:var(--warn); background:var(--warn-bg);}
+  .block.genesis{background:#f8fafc;}
+  .block .top{display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+  .idx{background:var(--primary); color:#fff; font-size:12px; font-weight:700;
+    padding:2px 10px; border-radius:999px;}
+  .badge{font-size:12px; padding:2px 10px; border-radius:999px; font-weight:600;}
+  .badge.ok{background:var(--ok-bg); color:var(--ok);}
+  .badge.bad{background:var(--bad-bg); color:var(--bad);}
+  .badge.suspect{background:var(--warn-bg); color:var(--warn);}
+  .badge.genesis{background:#eef2f7; color:var(--muted);}
+  .block .meta{font-size:13px; color:var(--ink); margin-top:8px;}
+  .block .hashline{font-family:Consolas,monospace; font-size:11.5px; color:var(--muted);
+    margin-top:6px; word-break:break-all;}
+  .block .hashline span{color:var(--primary-dark);}
+  .empty{color:var(--muted); font-size:14px; text-align:center; padding:40px 0;}
+  .note{font-size:12px; color:var(--muted); margin-top:18px; padding-top:12px;
+    border-top:1px dashed var(--line);}
+  .tip{background:#fffbeb; border:1px solid #fde68a; border-radius:8px; padding:10px 14px;
+    font-size:13px; color:#92400e; margin-bottom:14px;}
+  .kpis{display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:16px;}
+  @media (max-width:700px){ .kpis{grid-template-columns:repeat(2,1fr);} }
+  .kpi{background:#f8fafc; border:1px solid var(--line); border-radius:10px; padding:14px 16px;}
+  .kpi .v{font-size:26px; font-weight:700; color:var(--primary-dark); font-variant-numeric:tabular-nums;}
+  .kpi .v.bad{color:var(--bad);}
+  .kpi .l{font-size:12px; color:var(--muted); margin-top:2px;}
+  #barChart{width:100%; height:auto; display:block; margin-top:4px;}
+</style>
 </head>
 <body>
-    <h1>这是我的网页</h1>
-    <p>测试文字</p >
+<div class="wrap">
+
+  <header>
+    <h1>碳迹可信 · 碳排放数据可信存证与审计平台</h1>
+    <p>演示：数据采集 → 哈希链上链存证 → 防篡改校验 → 审计追溯　（作品赛演示原型）</p>
+  </header>
+
+  <div class="grid">
+
+    <!-- 左侧：数据录入 -->
+    <div class="card">
+      <h2>① 采集端 · 录入排放数据</h2>
+      <label>企业名称</label>
+      <input id="company" type="text" placeholder="如：某石化有限公司" value="示例石化有限公司">
+
+      <label>排放源类型</label>
+      <select id="source">
+        <option value="2.66">燃煤锅炉（2.66 tCO₂/t 煤）</option>
+        <option value="2.16">燃气锅炉（2.16 tCO₂/千m³）</option>
+        <option value="0.5703">外购电力（0.5703 tCO₂/MWh）</option>
+        <option value="3.10">柴油机械（3.10 tCO₂/t）</option>
+      </select>
+
+      <label>排放因子（tCO₂/单位）</label>
+      <input id="factor" type="number" step="0.0001" value="2.66">
+
+      <label>活动数据（用量）</label>
+      <input id="activity" type="number" step="0.01" value="100" placeholder="如燃煤 100 吨">
+
+      <label>核算方法</label>
+      <select id="method">
+        <option>排放因子法</option>
+        <option>物料平衡法</option>
+        <option>实测法</option>
+      </select>
+
+      <label>数据时间</label>
+      <input id="time" type="datetime-local">
+
+      <div class="calc">核算结果 CO₂ 排放量：<b id="co2">266.00</b> 吨</div>
+
+      <button class="btn btn-primary" onclick="addBlock()">数据上链存证</button>
+    </div>
+
+    <!-- 右侧：链 + 审计 -->
+    <div>
+      <div class="statusbar">
+        <span class="pill" id="st-count">区块数：0</span>
+        <span class="pill" id="st-status">尚未审计</span>
+        <span class="pill" id="st-tamper" style="display:none"></span>
+        <button class="btn btn-verify" style="width:auto; margin:0 0 0 auto; padding:8px 16px;" onclick="verifyChain()">全链审计校验</button>
+        <button class="btn btn-danger" style="width:auto; margin:0; padding:8px 16px;" onclick="tamperAttack()">⚠ 模拟篡改攻击</button>
+        <button class="btn btn-reset" style="width:auto; margin:0; padding:8px 16px;" onclick="restore()">还原数据</button>
+      </div>
+
+      <div class="card">
+        <h2>③ 数据统计大屏</h2>
+        <div class="kpis" id="kpis"></div>
+        <svg id="barChart" viewBox="0 0 720 260" preserveAspectRatio="xMidYMid meet" role="img" aria-label="各存证记录 CO2 排放量柱状图"></svg>
+      </div>
+
+      <div class="tip">演示提示：先「数据上链存证」录入 3～4 条数据 → 点「模拟篡改攻击」→ 再点「全链审计校验」，即可看到哈希链如何暴露篡改。</div>
+
+      <div class="card">
+        <h2>② 区块链存证 · 哈希链</h2>
+        <div class="chain" id="chain"></div>
+      </div>
+
+      <div class="card note">
+        <b>技术说明（如实）</b>：本原型用 SHA-256 实现哈希链——每个区块含「前一块哈希 + 本块数据哈希」，任一条数据被篡改即导致其哈希校验失败，且后续区块可信性随之失效（哈希链防篡改的核心机制）。<br>
+        完整区块链在此基础上还需<em>共识机制与多节点网络</em>，本原型聚焦演示「防篡改 + 可追溯」，用于作品赛方案演示。生产实现建议基于国密 SM3 + FISCO BCOS 国产联盟链。
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+/* ============ SHA-256（纯 JS，自包含，双击即可运行） ============ */
+function sha256(ascii){
+  function rightRotate(value, amount){ return (value >>> amount) | (value << (32 - amount)); }
+  var mathPow = Math.pow, maxWord = mathPow(2, 32), result = '', words = [];
+  var asciiBitLength = ascii.length * 8;
+
+  var hash = sha256.h = sha256.h || [];
+  var k = sha256.k = sha256.k || [];
+  var primeCounter = k.length;
+  var isComposite = {};
+  for(var candidate = 2; primeCounter < 64; candidate++){
+    if(!isComposite[candidate]){
+      for(var i = 0; i < 313; i += candidate) isComposite[i] = candidate;
+      hash[primeCounter] = (mathPow(candidate, 0.5) * maxWord) | 0;
+      k[primeCounter++] = (mathPow(candidate, 1 / 3) * maxWord) | 0;
+    }
+  }
+
+  ascii += '\x80';
+  while((ascii.length % 64) - 56) ascii += '\x00';
+  for(var i = 0; i < ascii.length; i++){
+    var j = ascii.charCodeAt(i);
+    if(j >> 8) return;
+    words[i >> 2] |= j << ((3 - i) % 4) * 8;
+  }
+  words[words.length] = ((asciiBitLength / maxWord) | 0);
+  words[words.length] = asciiBitLength;
+
+  for(var j = 0; j < words.length;){
+    var w = words.slice(j, j += 16);
+    var oldHash = hash;
+    hash = hash.slice(0, 8);
+
+    for(var i = 0; i < 64; i++){
+      var w15 = w[i - 15], w2 = w[i - 2];
+      var a = hash[0], e = hash[4];
+      var temp1 = hash[7]
+        + (rightRotate(e, 6) ^ rightRotate(e, 11) ^ rightRotate(e, 25))
+        + ((e & hash[5]) ^ ((~e) & hash[6]))
+        + k[i]
+        + (w[i] = (i < 16) ? w[i] : (
+            w[i - 16]
+            + (rightRotate(w15, 7) ^ rightRotate(w15, 18) ^ (w15 >>> 3))
+            + w[i - 7]
+            + (rightRotate(w2, 17) ^ rightRotate(w2, 19) ^ (w2 >>> 10))
+          ) | 0);
+      var temp2 = (rightRotate(a, 2) ^ rightRotate(a, 13) ^ rightRotate(a, 22))
+        + ((a & hash[1]) ^ (a & hash[2]) ^ (hash[1] & hash[2]));
+      hash = [(temp1 + temp2) | 0].concat(hash);
+      hash[4] = (hash[4] + temp1) | 0;
+    }
+    for(var i = 0; i < 8; i++) hash[i] = (hash[i] + oldHash[i]) | 0;
+  }
+
+  for(var i = 0; i < 8; i++){
+    for(var j = 3; j + 1; j--){
+      var b = (hash[i] >> (j * 8)) & 255;
+      result += ((b < 16) ? 0 : '') + b.toString(16);
+    }
+  }
+  return result;
+}
+// 支持中文：先转 UTF-8 字节序列再哈希
+function hashText(str){ return sha256(unescape(encodeURIComponent(str))); }
+
+/* ============ 区块链（哈希链） ============ */
+var chain = [];
+
+function blockHash(index, timestamp, data, prevHash){
+  return hashText(index + '|' + timestamp + '|' + JSON.stringify(data) + '|' + prevHash);
+}
+
+function addBlock(){
+  var co2 = (parseFloat(document.getElementById('factor').value) *
+             parseFloat(document.getElementById('activity').value)).toFixed(2);
+  if(isNaN(co2) || co2 <= 0){ alert('请填写有效的排放因子与活动数据'); return; }
+
+  var data = {
+    company: document.getElementById('company').value || '（未填企业）',
+    source: document.getElementById('source').options[document.getElementById('source').selectedIndex].text.split('（')[0],
+    factor: document.getElementById('factor').value,
+    activity: document.getElementById('activity').value,
+    co2: co2,
+    method: document.getElementById('method').value,
+    time: document.getElementById('time').value || new Date().toLocaleString()
+  };
+
+  var prevHash = chain.length ? chain[chain.length - 1].hash : 'GENESIS';
+  var index = chain.length;
+  var timestamp = Date.now();
+  var b = {
+    index: index,
+    timestamp: timestamp,
+    data: data,
+    prevHash: prevHash,
+    hash: blockHash(index, timestamp, data, prevHash),
+    status: 'ok'          // ok / tampered / suspect
+  };
+  chain.push(b);
+  document.getElementById('co2').textContent = co2;
+  render();
+}
+
+function verifyChain(){
+  var tamperedIdx = -1, suspectFrom = -1;
+  for(var i = 0; i < chain.length; i++){
+    var b = chain[i];
+    var recompute = blockHash(b.index, b.timestamp, b.data, b.prevHash);
+    if(recompute !== b.hash){
+      if(tamperedIdx < 0) tamperedIdx = i;
+      b.status = 'tampered';
+    }
+  }
+  // 被篡改区块之后的所有区块：可信性存疑（哈希链在此处失效）
+  for(var i = 0; i < chain.length; i++){
+    if(chain[i].status === 'tampered'){ suspectFrom = i; break; }
+  }
+  for(var i = 0; i < chain.length; i++){
+    if(suspectFrom >= 0 && i > suspectFrom && chain[i].status !== 'tampered'){
+      chain[i].status = 'suspect';
+    } else if(chain[i].status === 'suspect' && suspectFrom < 0){
+      chain[i].status = 'ok';
+    }
+  }
+  render();
+}
+
+function tamperAttack(){
+  if(chain.length < 2){ alert('请先录入至少 2 条数据再模拟攻击'); return; }
+  // 选中间一条数据，偷偷篡改排放量（不重新计算哈希，模拟数据库被改）
+  var target = chain[Math.max(1, Math.floor(chain.length / 2))];
+  target.data.co2 = (parseFloat(target.data.co2) * 10).toFixed(2);
+  target.data.activity = (parseFloat(target.data.activity) * 10).toString();
+  render();
+  alert('已模拟篡改第 ' + (target.index + 1) + ' 条数据的排放量（哈希未重算）\n请点击「全链审计校验」查看如何被发现');
+}
+
+function restore(){
+  chain = [];
+  render();
+}
+
+/* ============ 统计大屏 ============ */
+function kpiHtml(v, label, cls){
+  return '<div class="kpi"><div class="v ' + (cls || '') + '">' + v + '</div><div class="l">' + label + '</div></div>';
+}
+
+function updateStats(){
+  var total = chain.length;
+  var sumCo2 = chain.reduce(function(s, b){ return s + parseFloat(b.data.co2 || 0); }, 0);
+  var okCount = chain.filter(function(b){ return b.status === 'ok'; }).length;
+  var badCount = chain.filter(function(b){ return b.status !== 'ok'; }).length;
+
+  document.getElementById('kpis').innerHTML =
+    kpiHtml(total, '总存证区块', '') +
+    kpiHtml(sumCo2.toFixed(2), '累计 CO₂ 排放量 (t)', '') +
+    kpiHtml(okCount, '可信区块', '') +
+    kpiHtml(badCount, '异常区块', badCount > 0 ? 'bad' : '');
+  drawChart();
+}
+
+function drawChart(){
+  var svg = document.getElementById('barChart');
+  if(chain.length === 0){
+    svg.innerHTML = '<text x="360" y="130" text-anchor="middle" fill="#898781" font-size="13">暂无存证数据</text>';
+    return;
+  }
+  var W = 720, H = 260, padL = 46, padR = 16, padT = 26, padB = 46;
+  var plotW = W - padL - padR, plotH = H - padT - padB;
+  var maxV = Math.max.apply(null, chain.map(function(b){ return parseFloat(b.data.co2 || 0); })) || 1;
+  var n = chain.length;
+  var slot = plotW / n;
+  var barW = Math.min(slot * 0.58, 64);
+  var baseY = padT + plotH;
+  var out = '';
+
+  chain.forEach(function(b, i){
+    var v = parseFloat(b.data.co2 || 0);
+    var h = (v / maxV) * plotH;
+    var x = padL + slot * i + (slot - barW) / 2;
+    var y = baseY - h;
+    var color = b.status === 'tampered' ? '#d03b3b' : (b.status === 'suspect' ? '#fab219' : '#0d9488');
+    var name = (b.data.company || '').slice(0, 5);
+    out += '<rect x="' + x + '" y="' + y + '" width="' + barW + '" height="' + Math.max(h, 1) + '" rx="4" fill="' + color + '"/>';
+    out += '<text x="' + (x + barW / 2) + '" y="' + (y - 8) + '" text-anchor="middle" font-size="12" fill="#0b0b0b">' + v + '</text>';
+    out += '<text x="' + (x + barW / 2) + '" y="' + (H - 18) + '" text-anchor="middle" font-size="11" fill="#52514e">#' + b.index + ' ' + name + '</text>';
+  });
+  out += '<line x1="' + padL + '" y1="' + baseY + '" x2="' + (W - padR) + '" y2="' + baseY + '" stroke="#c3c2b7" stroke-width="2"/>';
+  svg.innerHTML = out;
+}
+
+/* ============ 渲染 ============ */
+function short(h){ return h ? h.slice(0, 16) + '…' : ''; }
+
+function render(){
+  var el = document.getElementById('chain');
+  document.getElementById('st-count').textContent = '区块数：' + chain.length;
+  updateStats();
+
+  var tamperCount = chain.filter(function(b){ return b.status === 'tampered'; }).length;
+  var suspectCount = chain.filter(function(b){ return b.status === 'suspect'; }).length;
+
+  if(chain.length === 0){
+    el.innerHTML = '<div class="empty">暂无存证数据，请在左侧录入并「数据上链存证」</div>';
+    document.getElementById('st-status').textContent = '尚未审计';
+    document.getElementById('st-status').className = 'pill';
+    document.getElementById('st-tamper').style.display = 'none';
+    return;
+  }
+
+  if(tamperCount === 0 && suspectCount === 0 && chain.every(function(b){return b.status==='ok';})){
+    // 全部可信 —— 但仅当没发生过篡改才显示"已审计通过"
+  }
+
+  var statusText, statusCls;
+  if(tamperCount > 0){
+    statusText = '⚠ 检测到 ' + tamperCount + ' 处篡改';
+    statusCls = 'pill bad';
+  } else if(suspectCount > 0){
+    statusText = '链完整性存疑';
+    statusCls = 'pill';
+  } else {
+    statusText = '✓ 全链可信';
+    statusCls = 'pill ok';
+  }
+  var st = document.getElementById('st-status');
+  st.textContent = statusText;
+  st.className = statusCls;
+
+  var tk = document.getElementById('st-tamper');
+  if(tamperCount > 0){
+    tk.textContent = '已定位被篡改区块';
+    tk.className = 'pill bad';
+    tk.style.display = '';
+  } else {
+    tk.style.display = 'none';
+  }
+
+  el.innerHTML = chain.map(function(b){
+    var cls = 'block';
+    var badge = '<span class="badge ok">✓ 可信</span>';
+    if(b.index === 0 && b.status === 'ok' && chain.length === 1){
+      cls += ' genesis'; badge = '<span class="badge genesis">创世区块</span>';
+    }
+    if(b.status === 'tampered'){ cls += ' tampered'; badge = '<span class="badge bad">✗ 被篡改</span>'; }
+    if(b.status === 'suspect'){ cls += ' suspect'; badge = '<span class="badge suspect">⚠ 可信性存疑</span>'; }
+
+    var d = b.data;
+    return '<div class="' + cls + '">'
+      + '<div class="top"><span class="idx">#' + b.index + '</span>' + badge
+      + '<span style="font-size:12px;color:var(--muted)">' + d.time + '</span></div>'
+      + '<div class="meta"><b>' + d.company + '</b> · ' + d.source
+      + ' · 排放量 <b style="color:var(--primary-dark)">' + d.co2 + ' tCO₂</b>'
+      + '（活动数据 ' + d.activity + ' × 因子 ' + d.factor + '）· ' + d.method + '</div>'
+      + '<div class="hashline">区块哈希 <span>' + short(b.hash) + '</span></div>'
+      + '<div class="hashline">前块哈希 <span>' + short(b.prevHash) + '</span></div>'
+      + '</div>';
+  }).join('');
+}
+
+/* ============ 初始化 ============ */
+document.getElementById('source').addEventListener('change', function(){
+  document.getElementById('factor').value = this.value;
+  updateCo2();
+});
+function updateCo2(){
+  var f = parseFloat(document.getElementById('factor').value);
+  var a = parseFloat(document.getElementById('activity').value);
+  var v = (!isNaN(f) && !isNaN(a)) ? (f * a).toFixed(2) : '0.00';
+  document.getElementById('co2').textContent = v;
+}
+document.getElementById('factor').addEventListener('input', updateCo2);
+document.getElementById('activity').addEventListener('input', updateCo2);
+
+// 默认时间填当前
+(function(){
+  var now = new Date();
+  var pad = function(n){ return (n < 10 ? '0' : '') + n; };
+  document.getElementById('time').value =
+    now.getFullYear() + '-' + pad(now.getMonth()+1) + '-' + pad(now.getDate())
+    + 'T' + pad(now.getHours()) + ':' + pad(now.getMinutes());
+})();
+
+// 预置几条示例数据，方便打开即演示
+addBlock();
+document.getElementById('activity').value = 150;
+document.getElementById('time').value = document.getElementById('time').value.replace(/T\d\d:\d\d/, 'T09:00');
+addBlock();
+document.getElementById('source').value = '0.5703';
+document.getElementById('factor').value = '0.5703';
+document.getElementById('activity').value = 5000;
+addBlock();
+document.getElementById('activity').value = 100;
+updateCo2();
+</script>
 </body>
 </html>
