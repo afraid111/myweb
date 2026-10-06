@@ -3,29 +3,37 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>京都小顾问 · 北京旅行工具箱</title>
+<title>北京旅行工具箱｜京都小顾问</title>
 <meta name="description" content="北京旅行参谋：实时天气、地铁机场交通、中轴示意图与实景地图、三十七处景区详解、三套行程与按需定制行程单，另含住宿分区、京味小吃、特产伴手礼与京津冀周边线路。">
 <meta name="keywords" content="北京旅游,北京攻略,北京行程,北京景点,故宫预约,八达岭长城,北京住宿,北京小吃,北京特产,京津冀周边,北京地铁,天安门预约">
 <meta name="author" content="京都小顾问">
 <meta name="theme-color" content="#A62B22">
-<!-- canonical 与 og:url / og:image 均为占位地址，上线前请替换成真实域名 -->
-<link rel="canonical" href="https://example.com/beijing-travel">
+<link rel="canonical" href="https://afraid111.github.io/myweb/">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="京都小顾问 · 北京旅行工具箱">
+<meta property="og:site_name" content="北京旅行工具箱｜京都小顾问">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:title" content="京都小顾问 · 北京旅行工具箱">
+<meta property="og:title" content="北京旅行工具箱｜京都小顾问">
 <meta property="og:description" content="实时天气、交通、地图、三十七处景区详解、三套行程与一句话生成行程单，另含住宿分区、京味小吃、特产伴手礼与京津冀周边线路。">
-<meta property="og:url" content="https://example.com/beijing-travel">
-<meta property="og:image" content="https://example.com/beijing-travel-cover.png">
+<meta property="og:url" content="https://afraid111.github.io/myweb/">
+<meta property="og:image" content="https://afraid111.github.io/myweb/og-cover.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="北京旅行工具箱：天气、交通、地图、景区、行程一页收齐">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="京都小顾问 · 北京旅行工具箱">
+<meta name="twitter:title" content="北京旅行工具箱｜京都小顾问">
 <meta name="twitter:description" content="实时天气、交通、地图、三十七处景区详解、三套行程与一句话生成行程单，另含住宿、京味、伴手礼与京津冀周边。">
-<meta name="twitter:image" content="https://example.com/beijing-travel-cover.png">
+<meta name="twitter:image" content="https://afraid111.github.io/myweb/og-cover.png">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'><rect width='96' height='96' rx='20' fill='%23A62B22'/><text x='48' y='53' font-family='Songti SC,STSong,SimSun,serif' font-size='56' font-weight='700' text-anchor='middle' dominant-baseline='central' fill='%23F6F0E2'>京</text></svg>">
 <link rel="preconnect" href="https://fonts.loli.net" crossorigin>
 <link rel="stylesheet" href="https://fonts.loli.net/css2?family=Noto+Serif+SC:wght@500;700;900&display=swap" media="print" onload="this.media='all'">
 <script>(function(){try{var t=localStorage.getItem('jdxgw.theme.v1')||'auto';
 if(t==='dark'||(t!=='light'&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<script>/* 浏览模式：默认书页式（一个板块 = 一页）。必须在样式生效前定好，否则首帧会闪一下长页。
+   带锚点直接打开时（如 #spots），先藏掉默认的首屏，让 :target 的那一页直接显示出来。 */
+(function(){var K='jdxgw.mode.v1',IDS=['top','weather','transport','map','spots','plan','stay','food','gift','tips','nearby'],h=(location.hash||'').slice(1);
+try{if((localStorage.getItem(K)||'book')==='long')return;}catch(e){}
+document.documentElement.classList.add('page-mode');
+if(IDS.indexOf(h)>0)document.documentElement.classList.add('pg-jump');})();</script>
 <style>
 /* ══════════ 京都小顾问 · 设计基础 ══════════ */
 :root{
@@ -38,14 +46,26 @@ if(t==='dark'||(t!=='light'&&matchMedia('(prefers-color-scheme:dark)').matches))
   --serif:"Noto Serif SC","Songti SC","STSong","SimSun",serif;
   --sans:"PingFang SC","HarmonyOS Sans SC","MiSans","Microsoft YaHei",system-ui,sans-serif;
   --mono:Consolas,"SF Mono","Cascadia Mono",monospace;
-  --r:14px; --r2:20px;
+  --r-s:10px; --r:14px; --r2:20px;
   --shadow:0 1px 2px rgba(40,32,20,.05),0 10px 30px -20px rgba(40,32,20,.3);
   --ease:cubic-bezier(.22,.7,.25,1);
+  /* 底部这一摞固定元素共用一套基准，不再各写各的 bottom */
+  --btm:env(safe-area-inset-bottom,0px);
+  --tabbar-h:0px;      /* 窄屏由媒体查询设为 66px */
+  --bar-h:56px;        /* 翻页条高度 */
+  --nav-h:68px;        /* 顶栏实际高度，脚本量完会覆盖，锚点定位用它 */
 }
 *,*::before,*::after{box-sizing:border-box}
 [hidden]{display:none!important}
-html{scroll-behavior:smooth;scroll-padding-top:92px;-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.75;overflow-x:hidden}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--nav-h) + 24px);-webkit-text-size-adjust:100%;overflow-x:clip}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.75;overflow-x:clip;overflow-wrap:break-word}
+/* 窄屏溢出兜底：媒体元素不超出容器；长链接/长词允许断行
+   （#amap .tile 是绝对定位的 256×256 瓦片，必须排除，否则会被压变形） */
+img,video,iframe,svg,table,pre{max-width:100%}
+#amap .tile{max-width:none}
+a,code,pre{overflow-wrap:anywhere}
+/* 固定顶栏会盖住锚点，双保险：html 上已有 scroll-padding-top，这里再给每个板块留出边距 */
+section[id]{scroll-margin-top:calc(var(--nav-h) + 24px)}
 body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.5;
   background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .045 0'/></filter><rect width='220' height='220' filter='url(%23n)'/></svg>")}
 img,svg{display:block}
@@ -67,7 +87,7 @@ section{position:relative;padding:92px 0}
 #nav .wrap{display:flex;align-items:center;gap:26px;height:68px}
 #nav.scrolled{background:rgba(246,240,226,.88);backdrop-filter:blur(16px) saturate(1.4);-webkit-backdrop-filter:blur(16px) saturate(1.4);box-shadow:0 1px 0 var(--line),0 6px 24px -22px rgba(40,32,20,.5)}
 .brand{display:flex;align-items:center;gap:11px;text-decoration:none;flex:none}
-.brand .seal{width:36px;height:36px;border-radius:9px;background:var(--wall);color:#F8F2E4;display:grid;place-items:center;font-family:var(--serif);font-weight:700;font-size:20px;box-shadow:inset 0 0 0 1.5px rgba(246,240,226,.35),0 2px 6px -2px rgba(124,29,22,.55)}
+.brand .seal{width:36px;height:36px;border-radius:var(--r-s);background:var(--wall);color:#F8F2E4;display:grid;place-items:center;font-family:var(--serif);font-weight:700;font-size:20px;box-shadow:inset 0 0 0 1.5px rgba(246,240,226,.35),0 2px 6px -2px rgba(124,29,22,.55)}
 .brand .bn{font-family:var(--serif);font-weight:700;font-size:19px;letter-spacing:.04em;white-space:nowrap}
 .brand .bt{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;color:var(--ink3);display:block;margin-top:-2px}
 .nav-links{display:flex;gap:24px;margin-left:auto}
@@ -92,7 +112,7 @@ section{position:relative;padding:92px 0}
 
 /* ── 主视觉 ── */
 #top{padding:158px 0 84px}
-.hero-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:56px;align-items:center}
+.hero-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:52px;align-items:start}
 .hero-kicker{font-family:var(--mono);font-size:12.5px;letter-spacing:.3em;color:var(--wall);text-transform:uppercase}
 .hero-title{font-family:var(--serif);font-weight:900;font-size:clamp(54px,8vw,100px);line-height:1.06;letter-spacing:.03em;margin:20px 0 0}
 .hero-title .jy{color:var(--wall);position:relative}
@@ -100,15 +120,15 @@ section{position:relative;padding:92px 0}
 .hero-sub{margin-top:22px;font-size:17.5px;color:var(--ink2);max-width:31em}
 .hero-sub b{color:var(--ink);font-weight:600}
 .hero-acts{display:flex;gap:12px;flex-wrap:wrap;margin-top:32px}
-.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border-radius:12px;font-size:15px;text-decoration:none;transition:transform .25s var(--ease),box-shadow .25s,background .25s,border-color .25s;border:1px solid transparent}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border-radius:var(--r);font-size:15px;text-decoration:none;transition:transform .25s var(--ease),box-shadow .25s,background .25s,border-color .25s;border:1px solid transparent}
 .btn svg{width:17px;height:17px;flex:none}
 .btn.p{background:var(--wall);color:#F8F2E4;box-shadow:0 10px 22px -12px rgba(124,29,22,.7)}
 .btn.p:hover{transform:translateY(-2px);box-shadow:0 14px 26px -12px rgba(124,29,22,.75)}
 .btn.g{border-color:var(--line);color:var(--ink2);background:rgba(255,253,246,.6)}
 .btn.g:hover{border-color:var(--wall);color:var(--wall);transform:translateY(-2px)}
 .hero-live{margin-top:40px;display:flex;gap:12px;flex-wrap:wrap}
-.lv{display:flex;align-items:center;gap:11px;background:var(--card);border:1px solid var(--line);border-radius:13px;padding:11px 17px;box-shadow:var(--shadow);min-width:150px}
-.lv .ic{width:30px;height:30px;border-radius:9px;background:var(--wall-t);color:var(--wall);display:grid;place-items:center;flex:none}
+.lv{display:flex;align-items:center;gap:11px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:11px 17px;box-shadow:var(--shadow);min-width:150px}
+.lv .ic{width:30px;height:30px;border-radius:var(--r-s);background:var(--wall-t);color:var(--wall);display:grid;place-items:center;flex:none}
 .lv .ic svg{width:17px;height:17px}
 .lv .k{font-size:11px;color:var(--ink3);letter-spacing:.08em;line-height:1.4}
 .lv .v{font-size:15px;font-weight:600;line-height:1.45;white-space:nowrap}
@@ -117,7 +137,7 @@ section{position:relative;padding:92px 0}
 
 /* 中轴图 */
 .axis-fig{position:relative;display:flex;justify-content:center}
-.axis-fig svg{width:min(340px,100%);height:auto}
+.axis-fig svg{width:min(288px,100%);height:auto}
 .ax-line{stroke:var(--wall);stroke-width:2;stroke-dasharray:640;stroke-dashoffset:640;animation:axdraw 2.2s var(--ease) .3s forwards}
 @keyframes axdraw{to{stroke-dashoffset:0}}
 .ax-node{opacity:0;animation:axin .6s var(--ease) forwards}
@@ -158,17 +178,11 @@ section{position:relative;padding:92px 0}
 /* 入场动效 */
 .rv{opacity:0;transform:translateY(26px);transition:opacity .9s var(--ease),transform .9s var(--ease);transition-delay:var(--d,0s)}
 .rv.in{opacity:1;transform:none}
-@media(prefers-reduced-motion:reduce){
-  html{scroll-behavior:auto}
-  .rv{opacity:1;transform:none;transition:none}
-  .ax-line{animation:none;stroke-dashoffset:0}
-  .ax-node{animation:none;opacity:1}
-  *{animation-duration:.001s !important;transition-duration:.001s !important}
-}
+/* 降级动效的规则只在文件末尾保留一份（原先这里还有一份几乎相同的，已合并） */
 /* ── 天气 ── */
 .wx-grid{display:grid;grid-template-columns:1.06fr .94fr;gap:20px}
 .wx-col{display:flex;flex-direction:column;gap:20px}
-.wx-now{padding:30px 32px 26px}
+.wx-now{padding:24px 22px}
 .wx-now .top{display:flex;justify-content:space-between;gap:18px;align-items:flex-start}
 .wx-temp{font-family:var(--serif);font-weight:700;font-size:clamp(62px,9vw,92px);line-height:1;letter-spacing:-.01em;display:flex;align-items:baseline}
 .wx-temp i{font-style:normal;font-size:.34em;color:var(--ink2);margin-left:4px}
@@ -189,23 +203,23 @@ section{position:relative;padding:92px 0}
 .fp.lv1 .dotc{background:#6FA83C}.fp.lv2 .dotc{background:#E0B02E}.fp.lv3 .dotc{background:#DD7A2E}.fp.lv4 .dotc{background:var(--wall)}.fp.lv5 .dotc{background:#6E2A55}
 .wx-upd{margin-top:18px;font-size:11.5px;color:var(--ink3);font-family:var(--mono);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .wx-upd button{color:var(--wall);font-size:11.5px;font-family:var(--mono);text-decoration:underline;text-underline-offset:2px}
-.wx-hour{padding:24px 28px 18px;flex:1;display:flex;flex-direction:column}
+.wx-hour{padding:24px 22px 20px;flex:1;display:flex;flex-direction:column}
 .wx-hour h3,.wx-advice h3{font-family:var(--serif);font-size:17px;font-weight:700;display:flex;align-items:baseline;gap:10px}
 .wx-hour h3 span,.wx-advice h3 span{font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;color:var(--ink3);font-weight:400}
 .wx-chart{margin-top:12px;flex:1;display:flex;align-items:center}
 .wx-chart svg{width:100%;height:auto}
-.wx-advice{padding:24px 28px 20px}
+.wx-advice{padding:24px 22px}
 .wx-advice ul{margin-top:8px}
 .wx-advice li{display:flex;gap:12px;padding:9px 0;font-size:14px;color:var(--ink2);align-items:flex-start;line-height:1.7}
 .wx-advice li+li{border-top:1px dashed var(--line2)}
-.wx-advice .ai{width:28px;height:28px;border-radius:9px;display:grid;place-items:center;flex:none;background:var(--wall-t);color:var(--wall);margin-top:2px}
+.wx-advice .ai{width:28px;height:28px;border-radius:var(--r-s);display:grid;place-items:center;flex:none;background:var(--wall-t);color:var(--wall);margin-top:2px}
 .wx-advice .ai svg{width:15px;height:15px}
 .wx-advice li b{color:var(--ink);font-weight:600}
 .wx-rec{margin-top:12px;padding-top:12px;border-top:1px solid var(--line2);font-size:13.5px;color:var(--ink2)}
 .wx-rec .rc{display:flex;gap:8px;flex-wrap:wrap;margin-top:9px}
 .wx-rec .rc a{text-decoration:none}
 .wx-days{display:grid;grid-template-columns:repeat(7,1fr);gap:12px;margin-top:20px}
-.dcard{border:1px solid var(--line);border-radius:16px;background:var(--card);padding:15px 8px 13px;text-align:center;box-shadow:var(--shadow)}
+.dcard{border:1px solid var(--line);border-radius:var(--r);background:var(--card);padding:15px 8px 13px;text-align:center;box-shadow:var(--shadow)}
 .dcard .dw{font-size:13px;color:var(--ink2)}
 .dcard .dd{font-size:10.5px;font-family:var(--mono);color:var(--ink3);margin-top:1px}
 .dcard.today{background:var(--wall);border-color:var(--wall)}
@@ -221,20 +235,20 @@ section{position:relative;padding:92px 0}
 .dcard .dp{font-size:11px;color:var(--sky);font-family:var(--mono)}
 .dcard .dp.dry{color:var(--ink3);opacity:.55}
 .wx-seasons{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:20px}
-.season{border:1px solid var(--line);border-radius:16px;background:rgba(255,253,246,.62);padding:17px 19px 15px}
+.season{border:1px solid var(--line);border-radius:var(--r);background:rgba(255,253,246,.62);padding:17px 19px 15px}
 .season .sh{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
 .season .s{font-family:var(--serif);font-weight:700;font-size:17px}
 .season .m{font-family:var(--mono);font-size:10.5px;color:var(--ink3)}
 .season p{font-size:12.8px;color:var(--ink2);margin-top:7px;line-height:1.75}
 .season p b{color:var(--wall);font-weight:600}
 .wx-src{margin-top:22px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;align-items:center}
-.wx-fail{display:none;padding:22px 26px;border:1px dashed var(--wall);border-radius:14px;background:rgba(166,43,34,.04);font-size:14px;color:var(--ink2);align-items:center;gap:14px;flex-wrap:wrap}
+.wx-fail{display:none;padding:22px 26px;border:1px dashed var(--wall);border-radius:var(--r);background:rgba(166,43,34,.04);font-size:14px;color:var(--ink2);align-items:center;gap:14px;flex-wrap:wrap}
 .wx-fail.on{display:flex}
-.wx-fail button{border:1px solid var(--wall);color:var(--wall);padding:7px 16px;border-radius:10px;font-size:13.5px}
+.wx-fail button{border:1px solid var(--wall);color:var(--wall);padding:7px 16px;border-radius:var(--r-s);font-size:13.5px}
 
 /* ── 交通 ── */
 .tr-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-.tr-card{padding:26px 28px 24px}
+.tr-card{padding:24px 22px}
 .tr-card.span2{grid-column:1 / -1}
 .tr-card h3{font-family:var(--serif);font-size:19.5px;font-weight:700;display:flex;align-items:center;gap:11px;padding-bottom:14px;border-bottom:1px solid var(--line2)}
 .tr-card h3 svg{width:21px;height:21px;color:var(--wall);flex:none}
@@ -245,7 +259,7 @@ section{position:relative;padding:92px 0}
 .fact .fv{color:var(--ink2)}
 .fact .fv b{color:var(--ink);font-weight:600}
 .lines{display:flex;flex-wrap:wrap;gap:9px;margin-top:4px}
-.line{display:inline-flex;align-items:center;gap:9px;border:1px solid var(--line);border-radius:11px;padding:7px 13px 7px 9px;font-size:13px;background:rgba(255,253,246,.62);color:var(--ink2)}
+.line{display:inline-flex;align-items:center;gap:9px;border:1px solid var(--line);border-radius:var(--r-s);padding:7px 13px 7px 9px;font-size:13px;background:rgba(255,253,246,.62);color:var(--ink2)}
 .line b{font-family:var(--mono);color:#F8F2E4;background:var(--wall);border-radius:7px;padding:1.5px 8px;font-size:12px;flex:none}
 .line.air b{background:var(--sky)}
 .line .ln{white-space:nowrap}
@@ -264,21 +278,36 @@ section{position:relative;padding:92px 0}
 .stn-row .sd{color:var(--ink2);line-height:1.6}
 .stn-row .sm{font-family:var(--mono);font-size:11.5px;color:var(--ink3)}
 .limit-today{display:flex;gap:14px;margin-top:10px}
-.limit-cell{flex:1;border:1px solid var(--line);border-radius:14px;padding:13px 16px;background:rgba(255,253,246,.62)}
+.limit-cell{flex:1;border:1px solid var(--line);border-radius:var(--r);padding:13px 16px;background:rgba(255,253,246,.62)}
 .limit-cell .lk{font-size:11.5px;color:var(--ink3);letter-spacing:.06em}
 .limit-cell .lv2{font-family:var(--serif);font-size:22px;font-weight:700;margin-top:3px}
 .limit-cell .lv2 small{font-family:var(--sans);font-size:12px;color:var(--ink3);font-weight:400;margin-left:5px}
 .limit-cell.free .lv2{color:var(--pine)}
-.limit-table{width:100%;border-collapse:collapse;margin-top:10px;font-size:13px}
-.limit-table th,.limit-table td{padding:7px 8px;text-align:center;border-bottom:1px dashed var(--line2)}
-.limit-table th{color:var(--ink3);font-weight:500;font-size:12px}
-.limit-table td{font-family:var(--mono)}
-.limit-table td.on{color:var(--wall);font-weight:700}
+/* ══ 表格：四张表共用 .tbl ══
+   原先 .limit-table / .adv-tbl / .book-tbl / .hill-tbl 各写一套，光表头内边距就有
+   7/11/10/10px、横向 8/14/14/13px 三种值，边框有虚有实、表头底色有的有有的没有。
+   现在基础样式只有这一份，各表只保留真正的差异。 */
+.tbl{width:100%;border-collapse:collapse;font-size:13px}
+.tbl th{text-align:left;font-weight:600;font-size:12px;letter-spacing:.04em;color:var(--ink3);
+  padding:10px 14px;background:var(--paper2);white-space:nowrap;border-bottom:1px solid var(--line2)}
+.tbl td{padding:11px 14px;border-bottom:1px solid var(--line2);color:var(--ink2);vertical-align:top;line-height:1.72}
+.tbl tr:last-child td{border-bottom:0}
+/* 紧凑变体按设计就不带表头底色，深色下也不补 */
+html[data-theme=dark] .tbl:not(.tbl--tight) th{background:rgba(255,253,246,.05)}
+
+/* 紧凑变体：尾号限行表，居中 + 等宽 + 虚线分隔 */
+.tbl--tight{margin-top:10px}
+.tbl--tight th,.tbl--tight td{padding:7px 8px;text-align:center;border-bottom-style:dashed}
+.tbl--tight th{font-weight:500;background:none}
+.tbl--tight td{font-family:var(--mono)}
+.tbl--tight td.on{color:var(--wall);font-weight:700}
+.limit-wrap{margin-top:2px}
+.limit-period{font-size:12.3px;color:var(--ink3);line-height:1.8;margin-top:10px}
 .tr-foot{margin-top:16px;padding-top:14px;border-top:1px solid var(--line2)}
 /* ── 地图 ── */
 .mp-bar{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;margin-bottom:16px}
-.mp-tabs,.plan-tabs{display:inline-flex;background:var(--paper2);border:1px solid var(--line);border-radius:13px;padding:4px;gap:2px}
-.mp-tabs button,.plan-tabs button{padding:8px 20px;border-radius:10px;font-size:14px;color:var(--ink2);transition:.25s}
+.mp-tabs,.plan-tabs{display:inline-flex;background:var(--paper2);border:1px solid var(--line);border-radius:var(--r);padding:4px;gap:2px}
+.mp-tabs button,.plan-tabs button{padding:8px 20px;border-radius:var(--r-s);font-size:14px;color:var(--ink2);transition:.25s}
 .mp-tabs button:hover,.plan-tabs button:hover{color:var(--wall)}
 .mp-tabs button.on,.plan-tabs button.on{background:var(--card);color:var(--wall);font-weight:600;box-shadow:0 2px 8px -3px rgba(40,32,20,.3)}
 .mp-hint{font-size:12.5px;color:var(--ink3)}
@@ -307,19 +336,19 @@ section{position:relative;padding:92px 0}
 #amap .pm span{transform:rotate(45deg);color:#FBF6EA;font-size:10.5px;font-weight:700;font-family:var(--mono)}
 #amap .pm:hover .pin,#amap .pm.on .pin{transform:rotate(-45deg) scale(1.18);background:var(--glaze)}
 .mp-ctrl{position:absolute;right:14px;bottom:14px;display:flex;flex-direction:column;gap:8px;z-index:6}
-.mp-ctrl button{width:38px;height:38px;border-radius:11px;background:rgba(255,253,246,.95);border:1px solid var(--line);display:grid;place-items:center;box-shadow:var(--shadow);color:var(--ink2);transition:.2s}
+.mp-ctrl button{width:38px;height:38px;border-radius:var(--r-s);background:rgba(255,253,246,.95);border:1px solid var(--line);display:grid;place-items:center;box-shadow:var(--shadow);color:var(--ink2);transition:.2s}
 .mp-ctrl button:hover{color:var(--wall);border-color:var(--wall)}
 .mp-ctrl svg{width:17px;height:17px}
 .mp-attrib{position:absolute;left:12px;bottom:10px;font-size:10.5px;color:var(--ink3);background:rgba(255,253,246,.82);padding:2px 9px;border-radius:6px;z-index:6}
-.mp-pop{position:absolute;z-index:9;min-width:240px;max-width:290px;background:var(--card);border:1px solid var(--line);border-radius:15px;box-shadow:0 22px 46px -20px rgba(40,32,20,.55);padding:15px 17px 14px;opacity:0;pointer-events:none;transition:opacity .28s,transform .28s;transform:translateY(6px)}
+.mp-pop{position:absolute;z-index:9;min-width:240px;max-width:290px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:0 22px 46px -20px rgba(40,32,20,.55);padding:15px 17px 14px;opacity:0;pointer-events:none;transition:opacity .28s,transform .28s;transform:translateY(6px)}
 .mp-pop.on{opacity:1;pointer-events:auto;transform:none}
 .mp-pop h4{font-family:var(--serif);font-size:16.5px;font-weight:700;padding-right:22px}
 .mp-pop p{font-size:12.5px;color:var(--ink2);margin-top:4px;line-height:1.65}
 .mp-pop .acts{display:flex;gap:8px;margin-top:11px;flex-wrap:wrap}
-.mp-pop .close{position:absolute;top:9px;right:9px;width:24px;height:24px;border-radius:8px;display:grid;place-items:center;color:var(--ink3);transition:.2s}
+.mp-pop .close{position:absolute;top:9px;right:9px;width:24px;height:24px;border-radius:var(--r-s);display:grid;place-items:center;color:var(--ink3);transition:.2s}
 .mp-pop .close:hover{background:var(--paper2);color:var(--ink2)}
 .mp-pop .close svg{width:13px;height:13px}
-.mini-btn{font-size:12.5px;padding:6px 13px;border-radius:9px;border:1px solid var(--line);color:var(--ink2);text-decoration:none;display:inline-flex;align-items:center;gap:5px;transition:.2s;background:none;cursor:pointer;font-family:inherit;line-height:1.5}
+.mini-btn{font-size:12.5px;padding:6px 13px;border-radius:var(--r-s);border:1px solid var(--line);color:var(--ink2);text-decoration:none;display:inline-flex;align-items:center;gap:5px;transition:.2s;background:none;cursor:pointer;font-family:inherit;line-height:1.5}
 .mini-btn:hover{border-color:var(--wall);color:var(--wall)}
 .mini-btn.solid{background:var(--wall);border-color:var(--wall);color:#F8F2E4}
 .mini-btn.solid:hover{background:var(--wall-d)}
@@ -332,10 +361,13 @@ section{position:relative;padding:92px 0}
 .filters .f.on{background:var(--ink);border-color:var(--ink);color:var(--paper)}
 .filters .f .n{font-family:var(--mono);font-size:11px;opacity:.6;margin-left:5px}
 .filters .f.on .n{opacity:.75}
+/* 属性类筛选项（免费 / 需预约 / 雨天可去）用虚线区分于类别 */
+.filters .f[data-kind=attr]{border-style:dashed}
+.filters .f[data-kind=attr].on{border-style:solid}
 /* 排序条与结果计数 */
 .fbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;margin:-14px 0 26px}
 .sorts{display:flex;flex-wrap:wrap;gap:7px}
-.sorts button{padding:5px 13px;border-radius:8px;border:1px solid var(--line);font-size:12.5px;color:var(--ink2);background:none;cursor:pointer;font-family:inherit;transition:.25s}
+.sorts button{padding:5px 13px;border-radius:var(--r-s);border:1px solid var(--line);font-size:12.5px;color:var(--ink2);background:none;cursor:pointer;font-family:inherit;transition:.25s}
 .sorts button:hover{border-color:var(--wall);color:var(--wall)}
 /* 选中态沿用站内「筛选项选中」的同一套样式，深浅色下对比度都够 */
 .sorts button[aria-pressed=true]{background:var(--ink);border-color:var(--ink);color:var(--paper);font-weight:500}
@@ -344,6 +376,91 @@ section{position:relative;padding:92px 0}
 .fempty{text-align:center;padding:56px 20px;border:1px dashed var(--line);border-radius:var(--r2);color:var(--ink2)}
 .fempty b{font-family:var(--serif);font-size:19px;display:block;margin-bottom:8px}
 .fempty p{font-size:13.5px;color:var(--ink3);margin:0 0 18px}
+/* ══ 景点搜索框 ══ */
+.spot-search{display:flex;align-items:center;gap:10px;min-height:48px;margin:0 0 16px;padding:0 14px;
+  border:1px solid var(--line);border-radius:var(--r);background:var(--card);box-shadow:var(--shadow);transition:border-color .25s}
+.spot-search:focus-within{border-color:var(--wall)}
+.spot-search>svg{width:17px;height:17px;color:var(--ink3);flex:none}
+.spot-search input{flex:1;min-width:0;border:0;background:none;font:inherit;font-size:14.5px;color:var(--ink);
+  outline:none;padding:12px 0;min-height:44px;overflow-wrap:anywhere}
+.spot-search input::placeholder{color:var(--ink3)}
+.spot-search button{width:44px;height:44px;display:grid;place-items:center;color:var(--ink3);border-radius:var(--r-s);flex:none;margin-right:-8px;transition:color .2s}
+.spot-search button:hover{color:var(--wall)}
+.spot-search button svg{width:15px;height:15px}
+/* ══ 分页控件 ══ */
+.pager{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;margin-top:26px;padding-top:20px;border-top:1px solid var(--line2)}
+.pager .pg-info{font-size:13px;color:var(--ink3)}
+.pager .pg-info b{color:var(--ink2);font-weight:600;font-family:var(--mono)}
+.pager .pg-list{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-left:auto}
+.pager button{min-width:44px;min-height:44px;padding:0 12px;border:1px solid var(--line);border-radius:var(--r-s);
+  font-size:13.5px;color:var(--ink2);background:none;cursor:pointer;font-family:inherit;
+  display:inline-flex;align-items:center;justify-content:center;transition:.2s}
+.pager button:hover:not(:disabled):not([aria-current=page]){border-color:var(--wall);color:var(--wall)}
+.pager button[aria-current=page]{background:var(--ink);border-color:var(--ink);color:var(--paper);font-weight:600}
+.pager button:disabled{opacity:.35;cursor:not-allowed}
+.pager .pg-gap{color:var(--ink3);font-size:13px;padding:0 2px;align-self:center}
+/* 板块内分页：非当前页的卡片藏起来即可（不重绘 DOM，全站搜索的索引持有这些节点） */
+.pg-off{display:none!important}
+
+/* ══ 书页模式：一个板块 = 一页 ══
+   板块在 DOM 里始终存在、只切显隐；:target 让带锚点直接打开时首帧就显示正确的页，
+   不用等脚本跑完（避免闪一下首屏）。 */
+html.page-mode .sec{display:none}
+html.page-mode .sec.on{display:block}
+/* :target 只在脚本接手前管用——让带锚点直接打开时首帧就显示正确的页。
+   脚本跑起来（给 html 加 .pg-ready）后就撤掉，否则哈希与 .on 不一致时会出现两个板块同时显示。 */
+html.page-mode:not(.pg-ready) .sec:target{display:block}
+html.page-mode.pg-jump #top{display:none}   /* 有锚点时先藏掉默认首屏，脚本接手后由它摘掉这个类 */
+html.page-mode .sec{padding-top:calc(var(--nav-h) + 36px)}   /* 板块从文档顶部开始，要避开固定顶栏 */
+html.page-mode #top{padding-top:calc(var(--nav-h) + 64px)}
+html.page-mode .foot{display:none}          /* 页脚只在最后一页出现，免得每页底下都挂一个 */
+html.page-mode #nearby.on ~ .foot{display:block}
+
+/* ══ 底部翻页条 ══
+   原先把「上一个箭头 / 下一个箭头 / 页码胶囊 / 回到顶部」拆成四个 fixed 元素，
+   各自写一个 bottom（0/68/72/82/96/126/132 七个基准），窄屏必然互相压住。
+   现在合并成一条：书页模式下它是翻页条，长页模式下只保留其中的「回到顶部」。 */
+.pgbar{position:fixed;left:50%;bottom:calc(14px + var(--btm));z-index:70;display:flex;align-items:center;gap:6px;
+  padding:6px;border-radius:999px;border:1px solid var(--line);background:rgba(255,253,246,.92);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:var(--shadow);
+  transform:translate(-50%,12px);opacity:0;pointer-events:none;
+  transition:opacity .3s var(--ease),transform .3s var(--ease)}
+.pgbar.on{opacity:1;pointer-events:auto;transform:translate(-50%,0)}
+html[data-theme=dark] .pgbar{background:rgba(36,31,24,.92)}
+.pgb{min-width:44px;min-height:44px;padding:0 12px;border-radius:999px;color:var(--ink2);background:none;
+  display:inline-flex;align-items:center;gap:6px;font-size:13px;font-family:inherit;cursor:pointer;
+  transition:background .2s,color .2s,opacity .2s}
+.pgb:hover:not(:disabled){background:var(--wall-t);color:var(--wall)}
+.pgb:disabled{opacity:.3;cursor:not-allowed}
+.pgb svg{width:15px;height:15px;flex:none}
+#pgPrev svg{transform:rotate(180deg)}
+#toTop svg{transform:rotate(-90deg)}
+.pgb-pill{padding:0 12px;font-family:var(--mono);font-size:12.5px;color:var(--ink3);white-space:nowrap}
+.pgb-pill b{color:var(--wall);font-weight:600}
+/* 长页模式下这条只当「回到顶部」用 */
+html:not(.page-mode) .pgbar .pgb:not(#toTop),
+html:not(.page-mode) .pgbar .pgb-pill{display:none}
+@media(max-width:760px){
+  :root{--tabbar-h:66px}
+  .pgbar{bottom:calc(var(--tabbar-h) + 8px + var(--btm))}
+  .pgb-lb{display:none}          /* 窄屏箭头按钮只留图标，宽度让给页码 */
+  .pgb-pill .pn{display:none}    /* 窄屏页码省掉板块名，板块标题就在页面顶部 */
+  html.page-mode #rail{display:none!important}
+}
+/* ══ 预约聚合卡片 ══ */
+.book-card{margin:0 0 26px;border:1px solid var(--line);border-radius:var(--r2);background:var(--card);box-shadow:var(--shadow);overflow:hidden}
+.book-head{display:flex;gap:13px;align-items:flex-start;padding:20px 24px 16px;border-bottom:1px solid var(--line2)}
+.book-head .bi{width:34px;height:34px;border-radius:var(--r-s);background:var(--wall);color:#F8F2E4;display:grid;place-items:center;flex:none}
+.book-head .bi svg{width:18px;height:18px}
+.book-head h3{font-family:var(--serif);font-size:17.5px;font-weight:700}
+.book-head h3 span{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;color:var(--ink3);font-weight:400;margin-left:9px}
+.book-head p{font-size:12.8px;color:var(--ink2);margin-top:6px;line-height:1.8}
+.book-head p b{color:var(--ink);font-weight:600}
+.book-head .bh-hint{display:block;margin-top:6px;color:var(--wall);font-weight:600}
+.book-tbl td:first-child{font-weight:600;color:var(--ink)}
+.book-tbl .closed{color:var(--wall);font-weight:600;white-space:nowrap}
+.book-foot{padding:12px 24px 16px;font-size:12.2px;color:var(--ink3);line-height:1.8;border-top:1px solid var(--line2)}
+.book-foot b{color:var(--ink2);font-weight:600}
 /* 景点卡片 · 体验评级与免费标记 */
 .spot .lv{display:flex;flex-wrap:wrap;gap:6px 13px;margin-top:12px;font-size:11.5px;color:var(--ink3)}
 .spot .lv span{display:inline-flex;align-items:center;gap:4px;opacity:.4}
@@ -357,16 +474,15 @@ html[data-theme=dark] .spot .lv span.on,html[data-theme=dark] .spot .free{color:
 html[data-theme=dark] .m-lv span.on{color:var(--glaze-l)}
 .m-lv svg{width:14px;height:14px;flex:none}
 .spot-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-.spot{background:var(--card);border:1px solid var(--line);border-radius:var(--r2);padding:26px 24px 20px;cursor:pointer;text-align:left;display:flex;flex-direction:column;transition:transform .4s var(--ease),box-shadow .4s,border-color .4s;box-shadow:var(--shadow);position:relative;overflow:hidden;font-family:inherit}
-.spot:hover{transform:translateY(-5px);border-color:rgba(166,43,34,.4)}
+.spot{background:var(--card);border:1px solid var(--line);border-radius:var(--r2);padding:24px 22px;cursor:pointer;text-align:left;display:flex;flex-direction:column;transition:transform .4s var(--ease),box-shadow .4s,border-color .4s;box-shadow:var(--shadow);position:relative;overflow:hidden;font-family:inherit}
+.spot:hover{transform:translateY(-4px);border-color:var(--wall)}
 .spot:hover .badge{transform:rotate(-4deg) scale(1.04)}
-.spot.hide{display:none}
-.spot .badge{width:56px;height:56px;border-radius:16px;background:var(--wall);color:#F8F2E4;display:grid;place-items:center;box-shadow:0 10px 20px -10px rgba(124,29,22,.75);transition:transform .4s var(--ease)}
+.spot .badge{width:56px;height:56px;border-radius:var(--r);background:var(--wall);color:#F8F2E4;display:grid;place-items:center;box-shadow:0 10px 20px -10px rgba(124,29,22,.75);transition:transform .4s var(--ease)}
 .spot .badge svg{width:31px;height:31px}
 .spot .ghost{position:absolute;top:14px;right:16px;font-family:var(--mono);font-size:11px;color:var(--ink3);letter-spacing:.1em}
 .spot h3{font-family:var(--serif);font-size:21.5px;font-weight:700;margin-top:17px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
 .spot h3 .cat{font-family:var(--sans);font-size:11.5px;font-weight:400;color:var(--ink3);letter-spacing:.06em}
-.spot .line1{font-size:13.5px;color:var(--ink2);margin-top:7px;line-height:1.75;flex:1}
+.spot .line1{font-size:13.5px;color:var(--ink2);margin-top:8px;line-height:1.8;flex:1}
 .spot .meta{margin-top:15px;padding-top:14px;display:flex;flex-wrap:wrap;gap:5px 15px;font-size:12.5px;color:var(--ink3);border-top:1px dashed var(--line2)}
 .spot .meta b{color:var(--ink2);font-weight:500}
 .spot .meta .open{color:var(--wall);font-weight:500}
@@ -382,13 +498,13 @@ html[data-theme=dark] .m-lv span.on{color:var(--glaze-l)}
 #modal{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;padding:26px}
 #modal.on{display:flex}
 #modal .mask{position:absolute;inset:0;background:rgba(26,20,12,.56);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px)}
-#modal .panel{position:relative;width:min(780px,100%);max-height:min(88vh,920px);overflow:auto;background:var(--card);border-radius:22px;box-shadow:0 46px 100px -34px rgba(18,13,6,.7);animation:mpop .5s var(--ease);overscroll-behavior:contain}
+#modal .panel{position:relative;width:min(780px,100%);max-height:min(88vh,920px);overflow:auto;background:var(--card);border-radius:var(--r2);box-shadow:0 46px 100px -34px rgba(18,13,6,.7);animation:mpop .5s var(--ease);overscroll-behavior:contain}
 @keyframes mpop{from{opacity:0;transform:translateY(30px) scale(.975)}}
-.mclose{position:sticky;top:16px;float:right;margin:16px 16px 0 0;width:38px;height:38px;border-radius:12px;background:var(--paper2);display:grid;place-items:center;z-index:3;transition:.25s;color:var(--ink2)}
+.mclose{position:sticky;top:16px;float:right;margin:16px 16px 0 0;width:38px;height:38px;border-radius:var(--r-s);background:var(--paper2);display:grid;place-items:center;z-index:3;transition:.25s;color:var(--ink2)}
 .mclose:hover{background:var(--wall);color:#F8F2E4}
 .mclose svg{width:16px;height:16px}
 .m-head{display:flex;gap:20px;align-items:center;padding:28px 32px 22px}
-.m-head .badge{width:68px;height:68px;border-radius:19px;background:var(--wall);color:#F8F2E4;display:grid;place-items:center;flex:none;box-shadow:0 12px 26px -12px rgba(124,29,22,.8)}
+.m-head .badge{width:68px;height:68px;border-radius:var(--r2);background:var(--wall);color:#F8F2E4;display:grid;place-items:center;flex:none;box-shadow:0 12px 26px -12px rgba(124,29,22,.8)}
 .m-head .badge svg{width:38px;height:38px}
 .m-head h3{font-family:var(--serif);font-size:31px;font-weight:700;line-height:1.25}
 .m-head .sub{font-size:13px;color:var(--ink3);margin-top:5px;display:flex;align-items:center;gap:9px;flex-wrap:wrap}
@@ -427,25 +543,29 @@ html[data-theme=dark] .m-lv span.on{color:var(--glaze-l)}
 .swap-wrap{margin-top:34px;padding-top:24px;border-top:1px solid var(--line2)}
 .swap-wrap h3{font-family:var(--serif);font-size:17px;font-weight:700}
 .swap-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:16px}
-.sw{border:1px dashed var(--line);border-radius:15px;padding:15px 17px;background:rgba(255,253,246,.5)}
+.sw{border:1px dashed var(--line);border-radius:var(--r);padding:15px 17px;background:rgba(255,253,246,.5)}
 .sw b{font-size:14.5px;font-weight:600;display:block}
 .sw p{font-size:12.5px;color:var(--ink2);margin-top:6px;line-height:1.7}
 /* ── 京味 ── */
-.food-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-.fd{background:var(--card);border:1px solid var(--line);border-radius:var(--r2);padding:22px 20px 18px;transition:transform .4s var(--ease),border-color .4s;box-shadow:var(--shadow);display:flex;flex-direction:column}
-.fd:hover{transform:translateY(-4px);border-color:rgba(184,134,44,.5)}
-.fd .ico{width:46px;height:46px;border-radius:14px;background:var(--wall-t);color:var(--wall);display:grid;place-items:center}
+/* 桌面 3 列：4 列时卡宽只有 265px，这段 7 个字段要挤 11 行 */
+.food-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.fd{background:var(--card);border:1px solid var(--line);border-radius:var(--r2);padding:22px 20px;transition:transform .4s var(--ease),border-color .4s;box-shadow:var(--shadow);display:flex;flex-direction:column}
+.fd:hover{transform:translateY(-4px);border-color:var(--wall)}
+.fd .ico{width:46px;height:46px;border-radius:var(--r);background:var(--wall-t);color:var(--wall);display:grid;place-items:center}
 .fd .ico svg{width:27px;height:27px}
 .fd h3{font-family:var(--serif);font-size:18.5px;font-weight:700;margin-top:14px}
 .fd .desc{font-size:13px;color:var(--ink2);line-height:1.8;margin-top:7px;flex:1}
-.fd .where{margin-top:13px;padding-top:12px;border-top:1px dashed var(--line2);font-size:12.3px;color:var(--ink3);line-height:1.7}
+/* 7 个字段各占一行（原先靠 <br> 和全角空格挤在一段里），行距放宽 */
+.fd .where{margin-top:14px;padding-top:13px;border-top:1px dashed var(--line2);font-size:12.5px;color:var(--ink3);line-height:1.75;
+  display:grid;gap:5px}
+.fd .where .wf{display:block}
 .fd .where b{color:var(--ink2);font-weight:500}
 
 /* ── 锦囊 ── */
 .tips-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;align-items:start}
 .tcard{background:var(--card);border:1px solid var(--line);border-radius:var(--r2);padding:24px 22px;box-shadow:var(--shadow)}
 .tcard h3{font-family:var(--serif);font-size:18px;font-weight:700;display:flex;align-items:center;gap:10px;padding-bottom:14px;border-bottom:1px solid var(--line2)}
-.tcard h3 .ic{width:30px;height:30px;border-radius:9px;background:var(--glaze);color:#FBF6EA;display:grid;place-items:center;flex:none}
+.tcard h3 .ic{width:30px;height:30px;border-radius:var(--r-s);background:var(--glaze);color:#FBF6EA;display:grid;place-items:center;flex:none}
 .tcard h3 .ic svg{width:17px;height:17px}
 .tcard.tall{grid-row:span 2}
 .tcard .bl{display:grid;gap:14px;margin-top:16px}
@@ -455,7 +575,7 @@ html[data-theme=dark] .m-lv span.on{color:var(--glaze-l)}
 .tcard .bl .bi a{color:var(--wall);text-decoration:none;border-bottom:1px solid rgba(166,43,34,.3)}
 .tcard .bl .bi a:hover{border-bottom-color:var(--wall)}
 .chk{display:grid;gap:2px;margin-top:14px}
-.chk label{display:flex;gap:11px;align-items:flex-start;font-size:13.6px;color:var(--ink2);padding:8px 10px;border-radius:10px;cursor:pointer;transition:.22s;line-height:1.65}
+.chk label{display:flex;gap:11px;align-items:flex-start;font-size:13.6px;color:var(--ink2);padding:8px 10px;border-radius:var(--r-s);cursor:pointer;transition:.22s;line-height:1.65}
 .chk label:hover{background:var(--paper2)}
 .chk input{appearance:none;-webkit-appearance:none;width:19px;height:19px;border:1.6px solid var(--line);border-radius:6px;flex:none;margin-top:1px;cursor:pointer;position:relative;transition:.22s;background:var(--card)}
 .chk input:checked{background:var(--wall);border-color:var(--wall)}
@@ -465,7 +585,7 @@ html[data-theme=dark] .m-lv span.on{color:var(--glaze-l)}
 .chk-foot button{font-size:12.3px;color:var(--ink3);border-bottom:1px solid var(--line);transition:.2s;padding-bottom:1px}
 .chk-foot button:hover{color:var(--wall);border-color:var(--wall)}
 .tel{display:grid;gap:2px;margin-top:14px}
-.tel a{display:flex;align-items:center;gap:13px;padding:11px 12px;border-radius:12px;text-decoration:none;color:inherit;transition:.22s}
+.tel a{display:flex;align-items:center;gap:13px;padding:11px 12px;border-radius:var(--r-s);text-decoration:none;color:inherit;transition:.22s}
 .tel a:hover{background:var(--paper2)}
 .tel .no{font-family:var(--mono);font-size:15px;color:var(--wall);font-weight:600;flex:none;min-width:76px}
 .tel .lb{font-size:13.2px;color:var(--ink2)}
@@ -475,7 +595,7 @@ html[data-theme=dark] .m-lv span.on{color:var(--glaze-l)}
 
 /* ── 页脚 ── */
 .foot{padding:64px 0 46px;border-top:1px solid var(--line);margin-top:88px;text-align:center}
-.foot .seal{width:52px;height:52px;border-radius:14px;background:var(--wall);color:#F8F2E4;display:grid;place-items:center;font-family:var(--serif);font-size:25px;font-weight:700;margin:0 auto 20px;box-shadow:0 14px 30px -14px rgba(124,29,22,.8)}
+.foot .seal{width:52px;height:52px;border-radius:var(--r);background:var(--wall);color:#F8F2E4;display:grid;place-items:center;font-family:var(--serif);font-size:25px;font-weight:700;margin:0 auto 20px;box-shadow:0 14px 30px -14px rgba(124,29,22,.8)}
 .foot .fl{font-family:var(--serif);font-size:16px;color:var(--ink2);display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
 .foot .fl i{font-style:normal;color:var(--ink3)}
 .foot .sub{font-size:12.3px;color:var(--ink3);margin-top:16px;line-height:2}
@@ -490,7 +610,7 @@ html[data-theme=dark] .m-lv span.on{color:var(--glaze-l)}
 .fcol li b{color:var(--ink2);font-weight:600}
 .fcol li a{color:var(--ink3);text-decoration:none;border-bottom:1px solid var(--line)}
 .fcol li a:hover{color:var(--wall)}
-.fbtn{margin-top:14px;display:inline-flex;align-items:center;gap:6px;font-size:12.5px;padding:7px 15px;border:1px solid var(--line);border-radius:9px;color:var(--ink2);text-decoration:none;transition:.2s}
+.fbtn{margin-top:14px;display:inline-flex;align-items:center;gap:6px;font-size:12.5px;padding:7px 15px;border:1px solid var(--line);border-radius:var(--r-s);color:var(--ink2);text-decoration:none;transition:.2s}
 .fbtn:hover{border-color:var(--wall);color:var(--wall)}
 .fbtn svg{width:12px;height:12px}
 .fnote{display:block;margin-top:8px;font-size:11px;color:var(--ink3);opacity:.85}
@@ -498,21 +618,38 @@ html[data-theme=dark] .m-lv span.on{color:var(--glaze-l)}
 
 /* ── 住宿分区 ── */
 .stay-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-.stay{background:var(--card);border:1px solid var(--line);border-radius:var(--r2);padding:24px 22px 22px;box-shadow:var(--shadow);transition:transform .4s var(--ease),box-shadow .4s,border-color .4s}
+/* 纵向 flex：让「复制搜索词」按钮压到卡片底部，同一排卡片的按钮才能对齐 */
+.stay{display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);border-radius:var(--r2);padding:24px 22px 22px;box-shadow:var(--shadow);transition:transform .4s var(--ease),box-shadow .4s,border-color .4s}
 .stay:hover{transform:translateY(-4px);border-color:var(--wall)}
 .stay .zn{font-family:var(--mono);font-size:10px;letter-spacing:.15em;color:var(--glaze);font-weight:600}
 .stay h3{font-family:var(--serif);font-size:19px;font-weight:700;margin:7px 0 0}
 .stay .pr{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12.4px;color:var(--ink3);margin-top:10px;padding-bottom:13px;border-bottom:1px dashed var(--line2)}
 .stay .pr b{color:var(--wall);font-weight:600;font-family:var(--mono)}
-.stay .fit{font-size:12.8px;color:var(--ink2);margin-top:12px;line-height:1.82}
+.stay .fit{font-size:12.8px;color:var(--ink2);margin-top:12px;line-height:1.8}
 .stay .fit b{color:var(--ink);font-weight:600}
-.stay .li{display:flex;gap:7px;font-size:12.6px;line-height:1.82;margin-top:10px;color:var(--ink2)}
+.stay .li{display:flex;gap:7px;font-size:12.8px;line-height:1.8;margin-top:10px;color:var(--ink2)}
 .stay .li svg{width:13px;height:13px;flex:none;margin-top:5px}
 .stay .li.gd svg{color:var(--pine)}
 .stay .li.bd{color:var(--ink3)}
 .stay .li.bd svg{color:var(--wall)}
 .stay-warn{margin-top:20px}
 .stay-warn .tcard{max-width:100%}
+.stay .li.bd{margin-bottom:14px}   /* 按钮靠底时至少留出这段间距 */
+.stay-copy{margin-top:auto;align-self:flex-start;display:inline-flex;align-items:center;gap:6px;min-height:44px;
+  padding:8px 15px;border:1px solid var(--line);border-radius:var(--r-s);font-size:12.5px;color:var(--ink2);
+  background:none;cursor:pointer;font-family:inherit;transition:.2s}
+.stay-copy:hover{border-color:var(--wall);color:var(--wall)}
+.stay-copy svg{width:13px;height:13px;flex:none}
+
+/* ── 四段长城对比 ── */
+.hill-wrap{margin-top:34px;padding-top:26px;border-top:1px solid var(--line2)}
+.hill-h{font-family:var(--serif);font-size:17px;font-weight:700;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.hill-h span{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;color:var(--ink3);font-weight:400}
+.hill-lead{font-size:13.5px;color:var(--ink2);line-height:1.85;margin-top:10px}
+.hill-lead b{color:var(--ink);font-weight:600}
+.hill-tbl{margin-top:16px}
+.hill-tbl td:first-child{font-weight:600;color:var(--ink);white-space:nowrap}
+.hill-tbl .mini{font-family:var(--mono);font-size:11.5px;color:var(--ink3)}
 
 /* ── 特产伴手礼 ── */
 .gift-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
@@ -521,21 +658,21 @@ html[data-theme=dark] .m-lv span.on{color:var(--glaze-l)}
 .gift .gh{display:flex;align-items:baseline;justify-content:space-between;gap:10px;padding-bottom:12px;border-bottom:1px solid var(--line2)}
 .gift .gh h3{font-family:var(--serif);font-size:19px;font-weight:700;margin:0}
 .gift .gh span{font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--ink3);flex:none}
-.gift .gr{display:grid;grid-template-columns:54px 1fr;gap:11px;font-size:12.7px;line-height:1.82;margin-top:11px}
+.gift .gr{display:grid;grid-template-columns:54px 1fr;gap:11px;font-size:12.8px;line-height:1.8;margin-top:11px}
 .gift .gk{color:var(--ink3);font-size:12.2px}
 .gift .gv{color:var(--ink2)}
 .gift .gr:first-of-type .gv{color:var(--wall);font-family:var(--mono);font-size:12.2px}
 
 /* ── 京津冀周边联动 ── */
 .near-grid{display:grid;gap:18px}
-.near{display:grid;grid-template-columns:236px 1fr;gap:28px;background:var(--card);border:1px solid var(--line);border-radius:var(--r2);padding:26px 28px;box-shadow:var(--shadow);transition:border-color .4s}
-.near:hover{border-color:var(--wall)}
+.near{display:grid;grid-template-columns:236px 1fr;gap:28px;background:var(--card);border:1px solid var(--line);border-radius:var(--r2);padding:24px 22px;box-shadow:var(--shadow);transition:transform .4s var(--ease),box-shadow .4s,border-color .4s}
+.near:hover{transform:translateY(-4px);border-color:var(--wall)}
 .near .nl h3{font-family:var(--serif);font-size:22px;font-weight:700;margin:0}
 .near .nl .ne{font-family:var(--mono);font-size:10px;letter-spacing:.16em;color:var(--ink3);display:block;margin-top:5px}
 .near .nl .nr{font-size:12.5px;color:var(--ink2);line-height:1.85;margin-top:14px}
 .near .nl .nr b{color:var(--wall);font-weight:600}
-.near .np{font-size:13.2px;color:var(--ink2);line-height:1.95}
-.near .nt{margin-top:13px;padding-top:13px;border-top:1px dashed var(--line2);font-size:12.5px;color:var(--ink3);display:flex;gap:8px;line-height:1.82}
+.near .np{font-size:13.2px;color:var(--ink2);line-height:1.8}
+.near .nt{margin-top:13px;padding-top:13px;border-top:1px dashed var(--line2);font-size:12.5px;color:var(--ink3);display:flex;gap:8px;line-height:1.8}
 .near .nt svg{width:14px;height:14px;flex:none;margin-top:5px;color:var(--wall)}
 
 /* ── 首都专属规则 ── */
@@ -563,9 +700,13 @@ html[data-theme=dark] .m-lv span.on{color:var(--glaze-l)}
 }
 @media(max-width:920px){
   .nav-clock{display:none}
-  #nav .wrap{flex-wrap:wrap;height:auto;padding-top:11px;padding-bottom:9px;gap:0 18px}
-  .nav-links{order:3;width:100%;margin-left:0;gap:20px;overflow-x:auto;padding:8px 0 3px;-ms-overflow-style:none;scrollbar-width:none}
+  #nav .wrap{flex-wrap:wrap;height:auto;padding-top:10px;padding-bottom:8px;row-gap:4px;gap:0 18px}
+  /* 第二行：导航条自己横向滚动，主题切换跟在它右边——不再单独占一行，顶栏从三行压到两行。
+     flex-basis 必须是 0：换行 flex 容器按「内容宽度」判断折行，而导航条内容宽约 580px，
+     用 auto 它会独占一行、把主题切换挤到第三行去。 */
+  .nav-links{order:3;flex:1 1 0;width:auto;min-width:0;margin-left:0;gap:20px;overflow-x:auto;padding:8px 0 3px;-ms-overflow-style:none;scrollbar-width:none}
   .nav-links::-webkit-scrollbar{display:none}
+  .tsw{order:3;flex:none;align-self:center}
   .wx-grid,.tr-grid{grid-template-columns:1fr}
   .wx-days{grid-template-columns:repeat(4,1fr)}
   .hero-grid{grid-template-columns:1fr;gap:44px}
@@ -582,7 +723,11 @@ html[data-theme=dark] .m-lv span.on{color:var(--glaze-l)}
 @media(max-width:680px){
   .wrap{padding:0 18px}
   section{padding:66px 0}
-  #top{padding:132px 0 62px}
+  #top{padding:calc(var(--nav-h) + 64px) 0 62px}
+  /* 窄屏第一行要装下品牌名 + 四个工具按钮，两处都收一点 */
+  .brand .bn{font-size:16.5px}
+  .brand .bt{display:none}
+  .nav-tools{gap:6px}
   .hero-title{font-size:clamp(42px,13.5vw,60px)}
   .hero-title .jy .stamp{right:-34px;top:-4px;width:30px;height:30px;font-size:15px;border-width:2px}
   .hero-live{gap:9px}
@@ -626,16 +771,16 @@ html[data-theme=dark] .m-lv span.on{color:var(--glaze-l)}
 .sk-hit text[style]{fill:var(--ink3)}
 
 /* ── 按需定制 · 咨询台 ── */
-.ask-lead{display:flex;gap:14px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:var(--r2);padding:18px 20px;box-shadow:var(--shadow)}
-.ask-lead .ai{width:38px;height:38px;border-radius:12px;background:var(--wall-t);color:var(--wall);display:grid;place-items:center;flex:none}
+.ask-lead{display:flex;gap:14px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:var(--r2);padding:22px 20px;box-shadow:var(--shadow)}
+.ask-lead .ai{width:38px;height:38px;border-radius:var(--r-s);background:var(--wall-t);color:var(--wall);display:grid;place-items:center;flex:none}
 .ask-lead .ai svg{width:19px;height:19px}
 .ask-lead p{font-size:14px;color:var(--ink2);line-height:1.85}
 .ask-lead p b{color:var(--ink)}
-.ask-row{display:flex;gap:10px;align-items:center;margin-top:14px;background:var(--card);border:1.5px solid var(--line);border-radius:16px;padding:8px 9px 8px 16px;transition:border-color .25s,box-shadow .25s}
+.ask-row{display:flex;gap:10px;align-items:center;margin-top:14px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:5px 6px 5px 16px;box-shadow:var(--shadow);transition:border-color .25s}
 .ask-row:focus-within{border-color:var(--wall);box-shadow:0 0 0 3px var(--wall-t)}
 .ask-row input{flex:1;min-width:0;border:0;background:none;font:inherit;font-size:15px;color:var(--ink);outline:none}
 .ask-row input::placeholder{color:var(--ink3)}
-.ask-go{width:40px;height:40px;border-radius:12px;background:var(--wall);color:#F8F2E4;display:grid;place-items:center;flex:none;transition:transform .25s var(--ease)}
+.ask-go{width:40px;height:40px;border-radius:var(--r-s);background:var(--wall);color:#F8F2E4;display:grid;place-items:center;flex:none;transition:transform .25s var(--ease)}
 .ask-go:hover{transform:translateX(2px)}
 .ask-go svg{width:18px;height:18px}
 .ask-eg{display:flex;gap:8px;flex-wrap:wrap;margin-top:11px}
@@ -648,11 +793,8 @@ html[data-theme=dark] .m-lv span.on{color:var(--glaze-l)}
 .ask-blk>h4{display:flex;align-items:baseline;gap:10px;font-family:var(--serif);font-size:18px;font-weight:700;padding-bottom:9px;border-bottom:1.5px solid var(--wall)}
 .ask-blk>h4 span{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;color:var(--ink3);font-weight:400}
 .ask-blk>.note{font-size:12.8px;color:var(--ink3);margin-top:9px}
-.tbl-wrap{margin-top:14px;overflow-x:auto;border:1px solid var(--line2);border-radius:12px;background:var(--card)}
-.adv-tbl{width:100%;border-collapse:collapse;font-size:13.5px;min-width:580px}
-.adv-tbl th{text-align:left;font-weight:600;font-size:12.5px;color:var(--ink3);letter-spacing:.04em;padding:11px 14px;background:var(--paper2);white-space:nowrap;border-bottom:1px solid var(--line2)}
-.adv-tbl td{padding:11px 14px;border-bottom:1px solid var(--line2);color:var(--ink2);vertical-align:top;line-height:1.7}
-.adv-tbl tr:last-child td{border-bottom:0}
+.tbl-wrap{margin-top:14px;overflow-x:auto;border:1px solid var(--line2);border-radius:var(--r);background:var(--card)}
+.adv-tbl{min-width:580px}
 .adv-tbl td b{color:var(--ink);font-weight:600}
 .adv-tbl .pk{color:var(--wall);font-weight:600;white-space:nowrap}
 .adv-tbl .mini{font-family:var(--mono);font-size:11.5px;color:var(--ink3);white-space:nowrap}
@@ -662,7 +804,7 @@ html[data-theme=dark] .m-lv span.on{color:var(--glaze-l)}
 .adv-list li b{color:var(--ink);font-weight:600}
 .ask-acts{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
 .ask-empty{font-size:13.5px;color:var(--ink3);margin-top:16px;line-height:1.8}
-.ask-deny{margin-top:18px;background:var(--card);border:1px solid var(--line);border-left:3px solid var(--wall);border-radius:12px;padding:15px 18px;font-size:14px;color:var(--ink2);line-height:1.85}
+.ask-deny{margin-top:18px;background:var(--card);border:1px solid var(--line);border-left:3px solid var(--wall);border-radius:var(--r);padding:15px 18px;font-size:14px;color:var(--ink2);line-height:1.85}
 .ask-deny b{color:var(--ink)}
 .ask-saved{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:12px;font-size:12.8px;color:var(--ink3)}
 .ask-saved button{font-size:12.8px;color:var(--wall);border-bottom:1px solid rgba(166,43,34,.3);padding-bottom:1px}
@@ -670,23 +812,23 @@ html[data-theme=dark] .m-lv span.on{color:var(--glaze-l)}
 #ask{position:fixed;inset:0;z-index:110;display:none;align-items:center;justify-content:center;padding:20px}
 #ask.on{display:flex}
 #ask .mask{position:absolute;inset:0;background:rgba(26,20,12,.56);-webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px)}
-#ask .panel{position:relative;width:min(540px,100%);max-height:88vh;overflow:auto;background:var(--card);border-radius:22px;padding:26px 26px 24px;box-shadow:0 46px 100px -34px rgba(18,13,6,.7);animation:mpop .45s var(--ease)}
+#ask .panel{position:relative;width:min(540px,100%);max-height:88vh;overflow:auto;background:var(--card);border-radius:var(--r2);padding:26px 26px 24px;box-shadow:0 46px 100px -34px rgba(18,13,6,.7);animation:mpop .45s var(--ease)}
 .aq-top{display:flex;gap:14px;align-items:center}
-.aq-top .ic{width:46px;height:46px;border-radius:14px;background:var(--wall-t);color:var(--wall);display:grid;place-items:center;flex:none}
+.aq-top .ic{width:46px;height:46px;border-radius:var(--r);background:var(--wall-t);color:var(--wall);display:grid;place-items:center;flex:none}
 .aq-top .ic svg{width:22px;height:22px}
 .aq-top .k{font-size:11.5px;color:var(--ink3);letter-spacing:.08em;font-family:var(--mono)}
 .aq-top h4{font-family:var(--serif);font-size:22px;font-weight:700;margin-top:1px}
-.ticket{margin-top:16px;background:var(--paper2);border:1px dashed var(--line);border-radius:14px;padding:6px 16px 10px}
+.ticket{margin-top:16px;background:var(--paper2);border:1px dashed var(--line);border-radius:var(--r);padding:6px 16px 10px}
 .ticket h5{font-size:13.5px;font-weight:600;padding:9px 0 5px;color:var(--ink)}
 .ticket .row{display:flex;justify-content:space-between;gap:14px;font-size:13.5px;padding:7px 0;border-bottom:1px dashed var(--line2)}
 .ticket .row:last-child{border-bottom:0}
 .ticket .row .k{color:var(--ink3);flex:none}
 .ticket .row .v{color:var(--ink);text-align:right;font-weight:500;line-height:1.7}
 .ticket .row .v.mono{font-family:var(--mono);font-weight:400;font-size:12.5px}
-.aq-hint{display:flex;gap:9px;margin-top:16px;background:var(--wall-t);border-radius:12px;padding:12px 15px;font-size:13px;color:var(--ink2);line-height:1.75}
+.aq-hint{display:flex;gap:9px;margin-top:16px;background:var(--wall-t);border-radius:var(--r);padding:12px 15px;font-size:13px;color:var(--ink2);line-height:1.75}
 .aq-hint svg{width:15px;height:15px;flex:none;margin-top:4px;color:var(--wall)}
 /* ── 主题切换 ── */
-.tsw{display:inline-flex;background:var(--paper2);border:1px solid var(--line);border-radius:10px;padding:2px;gap:1px;flex:none}
+.tsw{display:inline-flex;background:var(--paper2);border:1px solid var(--line);border-radius:var(--r-s);padding:2px;gap:1px;flex:none}
 .tsw button{padding:4px 10px;border-radius:8px;font-size:12.5px;color:var(--ink3);transition:.2s;white-space:nowrap}
 .tsw button:hover{color:var(--wall)}
 .tsw button.on{background:var(--card);color:var(--ink);font-weight:600;box-shadow:0 1px 5px -2px rgba(40,32,20,.45)}
@@ -725,23 +867,34 @@ html[data-theme=dark] .dcard.today .di{color:#F3E2BC}
 html[data-theme=dark] #modal .mask,html[data-theme=dark] #ask .mask{background:rgba(0,0,0,.66)}
 html[data-theme=dark] .tile{filter:brightness(.86) contrast(1.03)}
 
-/* ══ 窄屏：住宿对比表改为卡片式（须写在 .adv-tbl 基础规则之后）══ */
+/* ══ 窄屏：表格改为卡片式 ══
+   CSS-only，不重写 DOM：隐藏 thead 的视觉但保留语义，字段名由 td[data-label] 渲染。
+   加列/改列时只要改 data-label，不用动 nth-child。 */
 @media(max-width:680px){
   .tbl-wrap{border:0;background:none;overflow:visible}
-  .adv-tbl{min-width:0;font-size:13.5px}
-  .adv-tbl thead{display:none}
-  .adv-tbl tbody,.adv-tbl tr,.adv-tbl td{display:block;width:auto}
-  .adv-tbl tr{border:1px solid var(--line2);border-radius:12px;background:var(--card);padding:12px 15px;margin-bottom:10px}
-  .adv-tbl td{padding:3px 0;border:0}
-  .adv-tbl td:first-child{font-size:15.5px;font-weight:600;color:var(--ink);margin-bottom:4px}
-  .adv-tbl td:first-child .mini{font-weight:400}
-  .adv-tbl td:nth-child(2)::before{content:"地铁 · ";font-family:var(--sans);font-size:12.5px;color:var(--ink3)}
-  .adv-tbl td:nth-child(3)::before{content:"参考价 · ";font-family:var(--sans);font-size:12.5px;color:var(--ink3)}
-  .adv-tbl td:last-child{padding-top:7px}
+  .adv-tbl{min-width:0}
+  .tbl thead{display:none}
+  .tbl tbody,.tbl tr,.tbl td{display:block;width:auto}
+  .tbl tr{border:1px solid var(--line2);border-radius:var(--r-s);background:var(--card);padding:12px 15px;margin-bottom:10px}
+  .tbl td{padding:3px 0;border:0;text-align:left}
+  /* 三张表的第一列是「这一行的名字」，当卡片标题；限行表每格是一天的数据，不能提标题 */
+  .tbl:not(.tbl--tight) td:first-child{font-size:15.5px;font-weight:600;color:var(--ink);margin-bottom:4px}
+  .tbl--tight td:first-child{font-size:14px;font-weight:400;color:var(--ink2)}
+  .tbl:not(.tbl--tight) td:first-child .mini{font-weight:400}
+  td[data-label]::before{content:attr(data-label) " · ";font-family:var(--sans);font-size:12.5px;color:var(--ink3);font-weight:400}
+  .tbl:not(.tbl--tight) td:first-child::before{content:none}
+  .tbl:not(.tbl--tight) td:last-child{padding-top:7px}
+  .tbl--tight{margin-top:0;font-size:14px}
+  .limit-wrap{margin-top:0}
+  .book-tbl .closed{margin-left:0}
+  .book-head{padding:18px 18px 14px}
+  .book-foot{padding:12px 18px 14px}
 }
 /* ══ 顶栏工具：搜索 / 心愿单 ══ */
 .nav-tools{display:flex;align-items:center;gap:8px;flex:none}
-.nt-btn{display:inline-flex;align-items:center;gap:7px;height:34px;padding:0 12px;border-radius:10px;border:1px solid var(--line);background:rgba(255,253,246,.6);color:var(--ink2);font-size:13px;transition:.25s}
+.nt-btn{display:inline-flex;align-items:center;gap:7px;height:34px;padding:0 12px;border-radius:var(--r-s);border:1px solid var(--line);background:rgba(255,253,246,.6);color:var(--ink2);font-size:13px;transition:.25s;position:relative}
+/* 视觉高度只有 34px，用透明层把命中区补到 44px 以上 */
+.nt-btn::before{content:"";position:absolute;left:-4px;right:-4px;top:-6px;bottom:-6px}
 .nt-btn:hover{border-color:var(--wall);color:var(--wall)}
 .nt-btn svg{width:15px;height:15px;flex:none}
 .nt-btn .kbd{font-family:var(--mono);font-size:10.5px;color:var(--ink3);border:1px solid var(--line2);border-radius:5px;padding:0 5px;line-height:16px}
@@ -753,7 +906,7 @@ html[data-theme=dark] .tile{filter:brightness(.86) contrast(1.03)}
 .ov{position:fixed;inset:0;z-index:120;display:none;justify-content:center;align-items:flex-start;padding:12vh 20px 24px}
 .ov.on{display:flex}
 .ov .mask{position:absolute;inset:0;background:rgba(26,20,12,.5);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
-.ov-panel{position:relative;width:min(680px,100%);max-height:72vh;display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:0 42px 90px -32px rgba(18,13,6,.62);overflow:hidden;animation:mpop .35s var(--ease)}
+.ov-panel{position:relative;width:min(680px,100%);max-height:72vh;display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);border-radius:var(--r2);box-shadow:0 42px 90px -32px rgba(18,13,6,.62);overflow:hidden;animation:mpop .35s var(--ease)}
 .ov-top{display:flex;align-items:center;gap:12px;padding:16px 19px;border-bottom:1px solid var(--line2)}
 .ov-top>svg{width:17px;height:17px;color:var(--ink3);flex:none}
 .ov-top input{flex:1;border:0;background:none;font-family:inherit;font-size:16px;color:var(--ink);min-width:0}
@@ -762,7 +915,7 @@ html[data-theme=dark] .tile{filter:brightness(.86) contrast(1.03)}
 .ov-top h4{font-family:var(--serif);font-size:17px;font-weight:700;flex:1}
 .ov-top h4 .tg{font-family:var(--sans);font-size:12px;font-weight:400;color:var(--ink3);margin-left:7px}
 .ov-list{overflow:auto;padding:8px;overscroll-behavior:contain}
-.ov-i{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;padding:11px 13px;border-radius:12px;border:1px solid transparent;transition:background .2s,border-color .2s}
+.ov-i{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;padding:11px 13px;border-radius:var(--r-s);border:1px solid transparent;transition:background .2s,border-color .2s}
 .ov-i:hover{background:var(--paper2)}
 .ov-i.on{background:var(--paper2);border-color:var(--line)}
 .ov-i .no{font-family:var(--mono);font-size:11px;color:var(--ink3);margin-top:4px;flex:none;width:15px}
@@ -778,18 +931,18 @@ html[data-theme=dark] .tile{filter:brightness(.86) contrast(1.03)}
 .ov-acts{display:flex;gap:9px;padding:12px 15px;border-top:1px solid var(--line2);background:var(--paper2);flex-wrap:wrap}
 
 /* ══ 心愿单条目 ══ */
-.fv{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:13px;border:1px solid var(--line2);background:var(--card);margin-bottom:8px}
-.fv .fi{width:38px;height:38px;border-radius:11px;background:var(--wall);color:#F8F2E4;display:grid;place-items:center;flex:none}
+.fv{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:var(--r);border:1px solid var(--line2);background:var(--card);margin-bottom:8px}
+.fv .fi{width:38px;height:38px;border-radius:var(--r-s);background:var(--wall);color:#F8F2E4;display:grid;place-items:center;flex:none}
 .fv .fi svg{width:21px;height:21px}
 .fv .ft{flex:1;min-width:0}
 .fv .ft b{font-family:var(--serif);font-size:15.5px;display:block;line-height:1.5}
 .fv .ft small{color:var(--ink3);font-size:12.5px}
-.fv .fx{width:31px;height:31px;border-radius:9px;display:grid;place-items:center;color:var(--ink3);border:1px solid transparent;transition:.2s;flex:none}
+.fv .fx{width:31px;height:31px;border-radius:var(--r-s);display:grid;place-items:center;color:var(--ink3);border:1px solid transparent;transition:.2s;flex:none}
 .fv .fx:hover{color:var(--wall);border-color:var(--line)}
 .fv .fx svg{width:14px;height:14px}
 
 /* ══ 景点卡片上的心愿按钮 ══ */
-.spot .fav{position:absolute;top:12px;right:13px;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;color:var(--ink3);background:rgba(255,253,246,.7);border:1px solid transparent;transition:.25s;z-index:2;--sfill:none}
+.spot .fav{position:absolute;top:12px;right:13px;width:34px;height:34px;border-radius:var(--r-s);display:grid;place-items:center;color:var(--ink3);background:rgba(255,253,246,.7);border:1px solid transparent;transition:.25s;z-index:2;--sfill:none}
 .spot .fav svg{width:18px;height:18px}
 .spot .fav:hover{color:var(--wall);border-color:var(--line)}
 .spot .fav.on{color:var(--wall);background:var(--wall-t);--sfill:currentColor}
@@ -813,7 +966,7 @@ html[data-theme=dark] .tile{filter:brightness(.86) contrast(1.03)}
 #amapBox .rt circle{fill:var(--wall);stroke:#FBF6EA;stroke-width:2.4}
 #amapBox .rt text{font-family:var(--mono);font-size:11px;fill:#FBF6EA;font-weight:700}
 #amap .pm.dim{opacity:.32}
-.mp-legend{position:absolute;left:12px;top:12px;z-index:6;background:rgba(255,253,246,.92);border:1px solid var(--line);border-radius:10px;padding:7px 12px;font-size:12px;color:var(--ink2);display:flex;align-items:center;gap:9px;box-shadow:var(--shadow)}
+.mp-legend{position:absolute;left:12px;top:12px;z-index:6;background:rgba(255,253,246,.92);border:1px solid var(--line);border-radius:var(--r-s);padding:7px 12px;font-size:12px;color:var(--ink2);display:flex;align-items:center;gap:9px;box-shadow:var(--shadow)}
 .mp-legend b{font-weight:600;color:var(--wall)}
 .mp-legend button{font-size:11.5px;color:var(--ink3);text-decoration:underline}
 .mp-legend button:hover{color:var(--wall)}
@@ -822,8 +975,13 @@ html[data-theme=dark] .tile{filter:brightness(.86) contrast(1.03)}
 .skip{position:absolute;left:50%;top:-70px;transform:translateX(-50%);z-index:200;background:var(--wall);color:#F8F2E4;padding:10px 20px;border-radius:0 0 12px 12px;font-size:13.5px;text-decoration:none;transition:top .25s}
 .skip:focus{top:0}
 
-/* ══ 轻提示 toast ══ */.toast{position:fixed;left:50%;bottom:96px;transform:translate(-50%,14px);z-index:300;background:var(--ink);color:var(--paper);font-size:13.5px;line-height:1.6;padding:10px 20px;border-radius:999px;box-shadow:0 14px 34px -14px rgba(40,32,20,.65);opacity:0;pointer-events:none;transition:opacity .28s var(--ease),transform .28s var(--ease);max-width:calc(100vw - 36px);text-align:center}
+/* ══ 轻提示 toast ══ */
+/* bottom 从翻页条之上算起——以前写死 96px 且没有窄屏覆盖，弹出时必然盖住翻页控件 */
+.toast{position:fixed;left:50%;bottom:calc(14px + var(--bar-h) + 12px + var(--btm));transform:translate(-50%,14px);z-index:300;background:var(--ink);color:var(--paper);font-size:13.5px;line-height:1.6;padding:10px 20px;border-radius:999px;box-shadow:0 14px 34px -14px rgba(40,32,20,.65);opacity:0;pointer-events:none;transition:opacity .28s var(--ease),transform .28s var(--ease);max-width:calc(100vw - 36px);text-align:center}
 .toast.on{opacity:1;transform:translate(-50%,0)}
+@media(max-width:760px){
+  .toast{bottom:calc(var(--tabbar-h) + 8px + var(--bar-h) + 12px + var(--btm))}
+}
 html[data-theme=dark] .toast{background:var(--glaze);color:#1B1710}
 
 /* ══ 窄屏底部固定导航 ══ */
@@ -831,7 +989,7 @@ html[data-theme=dark] .toast{background:var(--glaze);color:#1B1710}
   background:rgba(246,240,226,.93);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
   border-top:1px solid var(--line);padding:5px 4px calc(5px + env(safe-area-inset-bottom,0px))}
 html[data-theme=dark] #tabbar{background:rgba(23,20,15,.93)}
-#tabbar button{position:relative;display:flex;flex-direction:column;align-items:center;gap:3px;padding:7px 2px;background:none;border:0;font-family:inherit;font-size:11px;color:var(--ink3);cursor:pointer;border-radius:11px;transition:color .25s,background .25s}
+#tabbar button{position:relative;display:flex;flex-direction:column;align-items:center;gap:3px;padding:7px 2px;background:none;border:0;font-family:inherit;font-size:11px;color:var(--ink3);cursor:pointer;border-radius:var(--r-s);transition:color .25s,background .25s}
 #tabbar button svg{width:20px;height:20px}
 #tabbar button.on{color:var(--wall);background:var(--wall-t)}
 #tabbar .n{position:absolute;top:2px;left:calc(50% + 5px);min-width:16px;height:16px;border-radius:9px;background:var(--wall);color:#F8F2E4;font-size:10px;font-style:normal;display:grid;place-items:center;padding:0 4px;font-family:var(--mono);line-height:1}
@@ -839,32 +997,61 @@ html[data-theme=dark] #tabbar{background:rgba(23,20,15,.93)}
 
 /* ══ 行程概览：适合人群 / 体力 / 预算 / 预约汇总 ══ */
 .plan-brief{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:24px}
-.plan-brief .pb{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 17px;display:flex;flex-direction:column;gap:6px}
+.plan-brief .pb{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px 17px;display:flex;flex-direction:column;gap:6px}
 .plan-brief .pb.need{grid-column:1/-1;border-left:3px solid var(--wall)}
 .plan-brief .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;color:var(--ink3)}
-.plan-brief .v{font-size:13px;color:var(--ink2);line-height:1.82}
+.plan-brief .v{font-size:13px;color:var(--ink2);line-height:1.8}
 .plan-brief .v.hi{color:var(--wall);font-weight:600}
 .plan-brief .v b{color:var(--wall);font-weight:600}
 @media(max-width:680px){.plan-brief{grid-template-columns:1fr}}
 
 /* ══ 回到顶部 ══ */
-#toTop{position:fixed;right:22px;bottom:96px;z-index:85;width:44px;height:44px;border-radius:14px;border:1px solid var(--line);
-  background:var(--card);color:var(--ink2);display:grid;place-items:center;box-shadow:var(--shadow);cursor:pointer;
-  opacity:0;pointer-events:none;transform:translateY(10px);transition:opacity .3s var(--ease),transform .3s var(--ease),border-color .25s,color .25s}
-#toTop.on{opacity:1;pointer-events:auto;transform:none}
-#toTop:hover{border-color:var(--wall);color:var(--wall)}
-#toTop svg{width:18px;height:18px;transform:rotate(-90deg)}
 @media(max-width:760px){
   #tabbar{display:grid}
-  body{padding-bottom:calc(62px + env(safe-area-inset-bottom,0px))}
-  #toTop{right:15px;bottom:82px}
+  body{padding-bottom:calc(var(--tabbar-h) + 8px + var(--btm))}
+}
+/* 分页控件在窄屏换行显示，不横向溢出 */
+@media(max-width:680px){
+  .pager{gap:10px 12px}
+  .pager .pg-list{margin-left:0;width:100%;gap:6px}
+  .pager button{padding:0 11px}
+  .spot-search{margin-bottom:14px}
 }
 
+/* ══ 折叠面板：只用于「展开后很长」的详情，默认收起 ══ */
+details.fold{border-top:1px dashed var(--line2);margin-top:14px;padding-top:6px}
+details.fold>summary{display:flex;align-items:center;gap:9px;min-height:44px;cursor:pointer;list-style:none;
+  font-size:13.5px;font-weight:500;color:var(--ink2);transition:color .25s}
+details.fold>summary::-webkit-details-marker{display:none}
+details.fold>summary::marker{content:""}
+details.fold>summary::before{content:"";flex:none;width:7px;height:7px;margin-left:3px;
+  border-right:1.8px solid var(--ink3);border-bottom:1.8px solid var(--ink3);transform:rotate(-45deg);transition:transform .25s var(--ease)}
+details.fold[open]>summary::before{transform:rotate(45deg)}
+details.fold>summary:hover{color:var(--wall)}
+details.fold>summary:hover::before{border-color:var(--wall)}
+details.fold>summary:focus-visible{outline:2px solid var(--wall);outline-offset:3px;border-radius:var(--r-s)}
+details.fold>summary .fc{margin-left:auto;font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;color:var(--ink3);font-weight:400}
+details.fold[open]>summary .fc{opacity:.5}
+details.fold>.fd-body{padding:2px 0 6px}
+details.fold.first{border-top:0;margin-top:0;padding-top:0}
+.near details.fold>summary{font-size:13.5px}
+
+/* ══ 触摸目标：主要按钮 ≥44px；纯文字链接用透明层扩大命中区（视觉尺寸不变）══ */
+.mini-btn,.filters .f,.sorts button,.ask-eg button,.fbtn,.mp-ctrl button{min-height:44px}
+.mp-ctrl button{width:44px}
+.nav-links a,#rail .rl,.mp-chips .mc,.fmeta #fClear{position:relative}
+.nav-links a::before,#rail .rl::before,.mp-chips .mc::before{content:"";position:absolute;left:-8px;right:-8px;top:-9px;bottom:-9px}
+.fmeta #fClear::before{content:"";position:absolute;left:-10px;right:-10px;top:-14px;bottom:-14px}
+
 /* ══ 打印：只留行程 ══ */
+@page{size:A4;margin:1.5cm}
 @media print{
   body{background:#fff;color:#000}
   body::before{display:none}
-  #nav,#rail,#tabbar,#toTop,#modal,#ask,#stay,#gift,#nearby,#top,#weather,#transport,#map,#spots,#food,#tips,.foot,.toast,.skip,.plan-head,.plan-tools,.ov,.mp-stage,.swap-wrap,.rv{display:none!important}
+  /* 打印时只留当前这套行程：导航、底栏、筛选条、回到顶部、弹窗、折叠按钮全部隐藏 */
+  #nav,#rail,#tabbar,#modal,#ask,#stay,#gift,#nearby,#top,#weather,#transport,#map,#spots,#food,#tips,.foot,.toast,.skip,.plan-head,.plan-tools,.filters,.fbar,.book-card,.hill-wrap,.pager,.pgbar,.ov,.mp-stage,.swap-wrap,.rv{display:none!important}
+  /* 书页模式下非当前页是 display:none，这里把行程单强制显示回来，否则打印会是白纸 */
+  html.page-mode #plan{display:block!important}
   .plan-pane{display:none!important}
   .plan-pane.on{display:block!important}
   #plan{padding:0}
@@ -877,6 +1064,10 @@ html[data-theme=dark] #tabbar{background:rgba(23,20,15,.93)}
   .plan-brief .k{color:#666}
   .plan-brief .v,.plan-brief .v.hi,.plan-brief .v b{color:#000}
   .plan-print-head{display:block!important;margin-bottom:18px}
+  /* 万一折叠内容出现在打印范围里，也按展开的样子排 */
+  details.fold{border-top:1px solid #ddd}
+  details.fold>summary{color:#000}
+  details.fold>summary .fc{display:none}
 }
 .plan-print-head{display:none;font-family:var(--serif)}
 .plan-print-head b{font-size:20px}
@@ -1009,6 +1200,9 @@ html[data-theme=dark] #tabbar{background:rgba(23,20,15,.93)}
       <button class="nt-btn" id="navShare" aria-label="复制本页链接，分享给同行的人">
         <svg><use href="#i-copy"/></svg><span class="lb">分享</span>
       </button>
+      <button class="nt-btn" id="navMode" aria-pressed="true">
+        <svg><use href="#i-layers"/></svg><span class="lb">翻页</span>
+      </button>
     </div>
     <div class="tsw" id="tsw" role="group" aria-label="配色主题">
       <button data-theme="auto" class="on">自动</button>
@@ -1041,9 +1235,15 @@ html[data-theme=dark] #tabbar{background:rgba(23,20,15,.93)}
   <button type="button" data-t="transport"><svg><use href="#i-metro"/></svg><span>交通</span></button>
   <button type="button" id="tbFav"><svg><use href="#i-star"/></svg><span>心愿单</span><i class="n" id="tbFavN"></i></button>
 </nav>
-<button id="toTop" type="button" aria-label="回到页面顶部"><svg><use href="#i-arrow"/></svg></button>
+<!-- 底部翻页条：书页模式下是翻页控件，长页模式下只当「回到顶部」用 -->
+<div class="pgbar" id="pgbar" role="group" aria-label="板块翻页">
+  <button class="pgb" id="pgPrev" type="button" aria-label="上一页"><svg aria-hidden="true"><use href="#i-arrow"/></svg><span class="pgb-lb">上一页</span></button>
+  <span class="pgb-pill" id="pgPill"></span>
+  <button class="pgb" id="pgNext" type="button" aria-label="下一页"><span class="pgb-lb">下一页</span><svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
+  <button class="pgb" id="toTop" type="button" aria-label="回到页面顶部"><svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
+</div>
 
-<section id="top">
+<section id="top" class="sec on">
   <div class="wrap">
     <div class="hero-grid">
       <div>
@@ -1099,7 +1299,7 @@ html[data-theme=dark] #tabbar{background:rgba(23,20,15,.93)}
     </div>
   </div>
 </section>
-<section id="weather" class="alt">
+<section id="weather" class="sec alt">
   <div class="wrap">
     <div class="shead rv">
       <div class="l"><span class="snum">壹</span><h2>今日天气</h2><span class="sen">Weather</span></div>
@@ -1190,12 +1390,12 @@ html[data-theme=dark] #tabbar{background:rgba(23,20,15,.93)}
     </div>
 
     <div class="wx-src rv">
-      <span class="note">本页天气与空气质量数据来自 <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a> 开放接口（无需密钥，全球免费）。数值为格点预报，与体感存在偏差，重大出行请以中央气象台发布为准。</span>
+      <span class="note">本页天气与空气质量数据来自 <a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Open-Meteo</a> 开放接口（无需密钥，全球免费）。数值为格点预报，与体感存在偏差，重大出行请以中央气象台发布为准。</span>
       <span class="note mono" id="wxCoord">39.9042°N 116.4074°E</span>
     </div>
   </div>
 </section>
-<section id="transport">
+<section id="transport" class="sec">
   <div class="wrap">
     <div class="shead rv">
       <div class="l"><span class="snum">贰</span><h2>交通出行</h2><span class="sen">Transport</span></div>
@@ -1273,15 +1473,16 @@ html[data-theme=dark] #tabbar{background:rgba(23,20,15,.93)}
       <div class="card tr-card span2 rv" id="limitCard">
         <h3><svg><use href="#i-taxi"/></svg>尾号限行<span class="sub">WEEKDAY LIMIT · 7:00—20:00 · 五环内</span></h3>
         <div class="limit-today" id="limitToday"></div>
-        <div style="overflow-x:auto"><table class="limit-table" id="limitTable"></table></div>
+        <p class="limit-period" id="limitPeriod"></p>
+        <div class="limit-wrap"><table class="tbl tbl--tight limit-table" id="limitTable"></table></div>
         <div class="tr-foot">
-          <p class="note">规则：工作日 7:00—20:00，五环路以内道路（不含五环主路）按车牌尾号轮流限行；周末与法定节假日不限行，调休上班的周末按对应工作日的轮换执行。纯电动小客车（绿牌）不受尾号限行限制。轮换方案每 13 周调整一次，顺序整体右移一位。本节数据按公开轮换规则推算，仅供出行参考，<b>请以北京交管部门当日发布为准</b>。</p>
+          <p class="note">规则：工作日 7:00—20:00，五环路以内道路（不含五环主路）按车牌尾号轮流限行；法定节假日与公休日不限行，<b>因放假调休而调整为上班的星期六、星期日同样不限行</b>。纯电动小客车（绿牌）不受尾号限行限制。轮换方案每 13 周调整一次，顺序整体右移一位。本节数据按公开轮换规则与国务院放假通知推算，仅供出行参考，<b>请以北京交管部门当日发布为准</b>。</p>
         </div>
       </div>
     </div>
   </div>
 </section>
-<section id="map" class="alt">
+<section id="map" class="sec alt">
   <div class="wrap">
     <div class="shead rv">
       <div class="l"><span class="snum">叁</span><h2>地图定位</h2><span class="sen">Map</span></div>
@@ -1363,29 +1564,37 @@ html[data-theme=dark] #tabbar{background:rgba(23,20,15,.93)}
         <h4 id="mpPopT">景点</h4>
         <p id="mpPopP">—</p>
         <div class="acts">
-          <a class="mini-btn solid" id="mpPopAm" target="_blank" rel="noopener">高德导航<svg><use href="#i-ext"/></svg></a>
-          <a class="mini-btn" id="mpPopBd" target="_blank" rel="noopener">百度地图<svg><use href="#i-ext"/></svg></a>
+          <a class="mini-btn solid" id="mpPopAm" target="_blank" rel="noopener noreferrer">高德导航<svg><use href="#i-ext"/></svg></a>
+          <a class="mini-btn" id="mpPopBd" target="_blank" rel="noopener noreferrer">百度地图<svg><use href="#i-ext"/></svg></a>
           <button class="mini-btn" id="mpPopMore">查看详情</button>
         </div>
       </div>
     </div>
 
     <div class="linkline rv" style="margin-top:22px">
-      <a href="https://www.bjsubway.com/" target="_blank" rel="noopener"><svg><use href="#i-metro"/></svg>北京地铁官网 · 线路图与首末班</a>
-      <a href="https://www.bjbus.com/" target="_blank" rel="noopener"><svg><use href="#i-bike"/></svg>北京公交 · 实时到站</a>
+      <a href="https://www.bjsubway.com/" target="_blank" rel="noopener noreferrer"><svg><use href="#i-metro"/></svg>北京地铁官网 · 线路图与首末班</a>
+      <a href="https://www.bjbus.com/" target="_blank" rel="noopener noreferrer"><svg><use href="#i-bike"/></svg>北京公交 · 实时到站</a>
       <span class="note">实景地图为经纬度实时瓦片，需要网络；示意图已内置，离线也能看。</span>
     </div>
   </div>
 </section>
-<section id="spots">
+<section id="spots" class="sec">
   <div class="wrap">
     <div class="shead rv">
       <div class="l"><span class="snum">肆</span><h2>景区详解</h2><span class="sen">Scenic Spots</span></div>
-      <div class="sd">三十七处主推 · 可多选类别筛选<br>点击卡片查看游玩要点</div>
+      <div class="sd">三十七处主推 · 类别与属性可多选<br>点击卡片查看游玩要点</div>
     </div>
-    <p class="slead rv">从宫城到长城，从皇家园林到工业遗产。每张卡片都标了<b>门票、开放时间、建议时长与预约方式</b>，点开还有进去之后怎么走。类别可以<b>同时选几个</b>，也可以按<b>免费、远近、耗时</b>重排。</p>
+    <p class="slead rv">从宫城到长城，从皇家园林到工业遗产。每张卡片都标了<b>门票、开放时间、建议时长与预约方式</b>，点开还有进去之后怎么走。下面既能按<b>类别</b>筛，也能按<b>免费 / 需预约 / 雨天可去</b>筛（多选是「满足其一」，不是「都要满足」），还能按<b>远近、耗时</b>重排。</p>
 
-    <div class="filters rv" id="filters" role="group" aria-label="按景点类别筛选，可多选"></div>
+    <div class="book-card rv" id="bookAgg"></div>
+
+    <div class="spot-search rv">
+      <svg aria-hidden="true"><use href="#i-search"/></svg>
+      <input id="spotQ" type="text" autocomplete="off" placeholder="搜景点：中文名或拼音都行，如 gugong / gg" aria-label="在景点列表里搜索，支持拼音与首字母">
+      <button id="spotQClear" type="button" aria-label="清空搜索" hidden><svg aria-hidden="true"><use href="#i-close"/></svg></button>
+    </div>
+
+    <div class="filters rv" id="filters" role="group" aria-label="按条件筛选景点，可多选"></div>
     <div class="fbar rv">
       <div class="sorts" id="sorts" role="group" aria-label="景点排序方式"></div>
       <div class="fmeta">
@@ -1394,14 +1603,21 @@ html[data-theme=dark] #tabbar{background:rgba(23,20,15,.93)}
       </div>
     </div>
     <div class="spot-grid" id="spotGrid"></div>
+    <nav class="pager" id="pager" aria-label="景点列表分页" hidden></nav>
     <div class="fempty" id="fEmpty" hidden>
       <b>没有符合条件的景点</b>
-      <p>少选几个类别，或者换一种排序方式再试。</p>
-      <button class="mini-btn" id="fEmptyClear" type="button">清除筛选，看全部</button>
+      <p>换个关键词，或者少选几个类别再试。</p>
+      <button class="mini-btn" id="fEmptyClear" type="button">清除筛选与搜索，看全部</button>
+    </div>
+
+    <div class="hill-wrap rv">
+      <h3 class="hill-h">四段长城怎么选 <span>WHICH GREAT WALL</span></h3>
+      <p class="hill-lead">北京能爬的长城不止八达岭。四段的差别主要在<b>交通省不省事</b>与<b>人多人少</b>，先看这张表再决定去哪一段。</p>
+      <div class="tbl-wrap"><table class="tbl hill-tbl" id="hillTbl"></table></div>
     </div>
   </div>
 </section>
-<section id="plan" class="alt">
+<section id="plan" class="sec alt">
   <div class="wrap">
     <div class="shead rv">
       <div class="l"><span class="snum">伍</span><h2>行程建议</h2><span class="sen">Itinerary</span></div>
@@ -1528,7 +1744,7 @@ html[data-theme=dark] #tabbar{background:rgba(23,20,15,.93)}
     </div>
   </div>
 </section>
-<section id="stay">
+<section id="stay" class="sec">
   <div class="wrap">
     <div class="shead rv">
       <div class="l"><span class="snum">陆</span><h2>住哪儿</h2><span class="sen">Where to Stay</span></div>
@@ -1537,6 +1753,7 @@ html[data-theme=dark] #tabbar{background:rgba(23,20,15,.93)}
     <p class="slead rv">北京选住宿的第一原则是<b>离地铁近</b>，第二是<b>顺着行程住</b>——每天跨城通勤一小时，比多花两百块更亏。逛老城住东城西城，跑西北郊住海淀，奔环球影城住通州，<b>别为了便宜住到六环外</b>。</p>
 
     <div class="stay-grid" id="stayGrid"></div>
+    <nav class="pager" id="stayPager" aria-label="住宿分区分页" hidden></nav>
 
     <div class="stay-warn rv">
       <div class="tcard warn">
@@ -1552,7 +1769,7 @@ html[data-theme=dark] #tabbar{background:rgba(23,20,15,.93)}
     </div>
   </div>
 </section>
-<section id="food" class="alt">
+<section id="food" class="sec alt">
   <div class="wrap">
     <div class="shead rv">
       <div class="l"><span class="snum">柒</span><h2>京味吃食</h2><span class="sen">Local Food</span></div>
@@ -1560,65 +1777,66 @@ html[data-theme=dark] #tabbar{background:rgba(23,20,15,.93)}
     </div>
     <p class="slead rv">北京菜不精致，但实在。<b>烤鸭与涮肉是必吃</b>，豆汁儿是考验——先小口试，别硬撑。每道都标了<b>人均、辣度、适合时段、排队情况和大致区位</b>，照着排进当天的行程里就行。</p>
 
-    <div class="food-grid">
+    <div class="food-grid" id="foodGrid">
       <div class="fd rv">
         <div class="ico"><svg><use href="#f-duck"/></svg></div>
         <h3>北京烤鸭</h3>
         <p class="desc">挂炉（全聚德）与焖炉（便宜坊）两派。皮蘸白糖、肉卷荷叶饼，配甜面酱、葱丝、黄瓜条。</p>
-        <p class="where"><b>推荐：</b>四季民福（故宫角楼店）、大董、便宜坊<br><b>人均：</b>150—300 元　<b>辣度：</b>不辣<br><b>时段：</b>午市 11:00 起、晚市 17:30 起，两轮翻台<br><b>排队：</b>热门店晚市常等 1 小时以上，11:00 前到或 20:00 后去最省事<br><b>区位：</b>故宫周边、前门、三里屯都有店<br><b>搭配：</b>吃完沿护城河走到角楼，顺路接景山或王府井</p>
+        <p class="where"><span class="wf"><b>推荐：</b>四季民福（故宫角楼店）、大董、便宜坊</span><span class="wf"><b>人均：</b>150—300 元</span><span class="wf"><b>辣度：</b>不辣</span><span class="wf"><b>时段：</b>午市 11:00 起、晚市 17:30 起，两轮翻台</span><span class="wf"><b>排队：</b>热门店晚市常等 1 小时以上，11:00 前到或 20:00 后去最省事</span><span class="wf"><b>区位：</b>故宫周边、前门、三里屯都有店</span><span class="wf"><b>搭配：</b>吃完沿护城河走到角楼，顺路接景山或王府井</span></p>
       </div>
       <div class="fd rv" style="--d:.05s">
         <div class="ico"><svg><use href="#f-noodle"/></svg></div>
         <h3>老北京炸酱面</h3>
         <p class="desc">六必居干黄酱炒肉丁做酱，手擀面过水，配黄瓜、豆芽、青豆、萝卜丝等菜码，拌匀再吃。</p>
-        <p class="where"><b>推荐：</b>海碗居、老北京炸酱面大王<br><b>人均：</b>30—60 元　<b>辣度：</b>不辣（辣油自加）<br><b>时段：</b>全天，午市 12:00 前后最挤<br><b>排队：</b>基本不用排，翻台快<br><b>区位：</b>前门、什刹海、王府井一带都有老店<br><b>搭配：</b>安排成逛胡同那天的午饭，吃完接着走</p>
+        <p class="where"><span class="wf"><b>推荐：</b>海碗居、老北京炸酱面大王</span><span class="wf"><b>人均：</b>30—60 元</span><span class="wf"><b>辣度：</b>不辣（辣油自加）</span><span class="wf"><b>时段：</b>全天，午市 12:00 前后最挤</span><span class="wf"><b>排队：</b>基本不用排，翻台快</span><span class="wf"><b>区位：</b>前门、什刹海、王府井一带都有老店</span><span class="wf"><b>搭配：</b>安排成逛胡同那天的午饭，吃完接着走</span></p>
       </div>
       <div class="fd rv" style="--d:.1s">
         <div class="ico"><svg><use href="#f-hotpot"/></svg></div>
         <h3>铜锅涮肉</h3>
         <p class="desc">清水锅底只放葱姜，手切鲜羊肉七上八下即熟。蘸麻酱加韭菜花、腐乳，就一头糖蒜。</p>
-        <p class="where"><b>推荐：</b>聚宝源、南门涮肉、东来顺<br><b>人均：</b>100—180 元　<b>辣度：</b>不辣（麻酱 + 韭菜花 + 腐乳）<br><b>时段：</b>晚市最有气氛，冬天最受欢迎<br><b>排队：</b>冬季晚市常排 1—2 小时，17:00 前到或先取号去逛湖<br><b>区位：</b>牛街、南门、什刹海一带<br><b>搭配：</b>吃完沿后海走一圈，正好消食看夜景</p>
+        <p class="where"><span class="wf"><b>推荐：</b>聚宝源、南门涮肉、东来顺</span><span class="wf"><b>人均：</b>100—180 元</span><span class="wf"><b>辣度：</b>不辣（麻酱 + 韭菜花 + 腐乳）</span><span class="wf"><b>时段：</b>晚市最有气氛，冬天最受欢迎</span><span class="wf"><b>排队：</b>冬季晚市常排 1—2 小时，17:00 前到或先取号去逛湖</span><span class="wf"><b>区位：</b>牛街、南门、什刹海一带</span><span class="wf"><b>搭配：</b>吃完沿后海走一圈，正好消食看夜景</span></p>
       </div>
       <div class="fd rv" style="--d:.15s">
         <div class="ico"><svg><use href="#f-luzhu"/></svg></div>
         <h3>卤煮火烧</h3>
         <p class="desc">猪肠、肺头、炸豆腐与火烧同锅久煮，浇蒜汁、辣椒油。重口味，但地道。</p>
-        <p class="where"><b>推荐：</b>小肠陈、北新桥卤煮老店<br><b>人均：</b>25—45 元　<b>辣度：</b>微辣（蒜汁与辣椒油自加）<br><b>时段：</b>全天，当早饭或夜宵都合适<br><b>排队：</b>饭点略等，多在 15 分钟内<br><b>区位：</b>南城（前门、陶然亭）一带最正宗<br><b>搭配：</b>重口味，安排在走了半天之后；配一瓶北冰洋解腻</p>
+        <p class="where"><span class="wf"><b>推荐：</b>小肠陈、北新桥卤煮老店</span><span class="wf"><b>人均：</b>25—45 元</span><span class="wf"><b>辣度：</b>微辣（蒜汁与辣椒油自加）</span><span class="wf"><b>时段：</b>全天，当早饭或夜宵都合适</span><span class="wf"><b>排队：</b>饭点略等，多在 15 分钟内</span><span class="wf"><b>区位：</b>南城（前门、陶然亭）一带最正宗</span><span class="wf"><b>搭配：</b>重口味，安排在走了半天之后；配一瓶北冰洋解腻</span></p>
       </div>
       <div class="fd rv">
         <div class="ico"><svg><use href="#f-chaogan"/></svg></div>
         <h3>炒肝</h3>
         <p class="desc">猪肝与大肠勾芡成糊，蒜味浓。老北京吃法是转着碗边吸溜，配二两包子。</p>
-        <p class="where"><b>推荐：</b>姚记炒肝（鼓楼）、天兴居<br><b>人均：</b>20—40 元　<b>辣度：</b>不辣（蒜味浓）<br><b>时段：</b>只做早市与午市，下午常卖完收摊<br><b>排队：</b>早上 7—9 点最挤，本地人也是这个点来<br><b>区位：</b>鼓楼、前门一带<br><b>搭配：</b>配二两猪肉包子是标准吃法，吃完正好上鼓楼或进后海</p>
+        <p class="where"><span class="wf"><b>推荐：</b>姚记炒肝（鼓楼）、天兴居</span><span class="wf"><b>人均：</b>20—40 元</span><span class="wf"><b>辣度：</b>不辣（蒜味浓）</span><span class="wf"><b>时段：</b>只做早市与午市，下午常卖完收摊</span><span class="wf"><b>排队：</b>早上 7—9 点最挤，本地人也是这个点来</span><span class="wf"><b>区位：</b>鼓楼、前门一带</span><span class="wf"><b>搭配：</b>配二两猪肉包子是标准吃法，吃完正好上鼓楼或进后海</span></p>
       </div>
       <div class="fd rv" style="--d:.05s">
         <div class="ico"><svg><use href="#f-douzhi"/></svg></div>
         <h3>豆汁儿 + 焦圈</h3>
         <p class="desc">绿豆发酵的酸味饮品，爱的人极爱。配焦圈、辣咸菜丝，趁热喝。</p>
-        <p class="where"><b>推荐：</b>锦芳小吃、老磁器口豆汁店<br><b>人均：</b>15—30 元　<b>辣度：</b>不辣（配辣咸菜丝）<br><b>时段：</b>早市为主，上午去最稳<br><b>排队：</b>不用排，本地人买了就走<br><b>区位：</b>磁器口、护国寺、牛街一带<br><b>搭配：</b>先小口试，喝不惯别硬撑；配焦圈和糖火烧压一压酸味</p>
+        <p class="where"><span class="wf"><b>推荐：</b>锦芳小吃、老磁器口豆汁店</span><span class="wf"><b>人均：</b>15—30 元</span><span class="wf"><b>辣度：</b>不辣（配辣咸菜丝）</span><span class="wf"><b>时段：</b>早市为主，上午去最稳</span><span class="wf"><b>排队：</b>不用排，本地人买了就走</span><span class="wf"><b>区位：</b>磁器口、护国寺、牛街一带</span><span class="wf"><b>搭配：</b>先小口试，喝不惯别硬撑；配焦圈和糖火烧压一压酸味</span></p>
       </div>
       <div class="fd rv" style="--d:.1s">
         <div class="ico"><svg><use href="#f-baodu"/></svg></div>
         <h3>爆肚</h3>
         <p class="desc">牛百叶在滚水里一焯即起，讲究「七上八下」，脆嫩为准，蘸麻酱小料。</p>
-        <p class="where"><b>推荐：</b>爆肚冯、金生隆<br><b>人均：</b>50—90 元　<b>辣度：</b>不辣（蘸麻酱小料）<br><b>时段：</b>午市与晚市都有，现焯现吃<br><b>排队：</b>老店晚市要等位，午市轻松很多<br><b>区位：</b>前门大栅栏、牛街一带<br><b>搭配：</b>配一碗小米粥或烧饼，量不大，适合当加餐</p>
+        <p class="where"><span class="wf"><b>推荐：</b>爆肚冯、金生隆</span><span class="wf"><b>人均：</b>50—90 元</span><span class="wf"><b>辣度：</b>不辣（蘸麻酱小料）</span><span class="wf"><b>时段：</b>午市与晚市都有，现焯现吃</span><span class="wf"><b>排队：</b>老店晚市要等位，午市轻松很多</span><span class="wf"><b>区位：</b>前门大栅栏、牛街一带</span><span class="wf"><b>搭配：</b>配一碗小米粥或烧饼，量不大，适合当加餐</span></p>
       </div>
       <div class="fd rv" style="--d:.05s">
         <div class="ico"><svg><use href="#f-bing"/></svg></div>
         <h3>门钉肉饼</h3>
         <p class="desc">厚墩墩的牛肉馅饼，形似城门上的门钉而得名。皮薄馅大、汁水足，讲究「先咬小口吸汤，再蘸醋吃」，一口下去能烫到舌头。</p>
-        <p class="where"><b>推荐：</b>宝瑞门钉肉饼、白魁老号、护国寺小吃<br><b>人均：</b>20—40 元　<b>辣度：</b>不辣（配醋与辣椒油）<br><b>时段：</b>全天，出锅最好吃，凉了油腻<br><b>排队：</b>刚出锅那阵要等，等下一锅反而更快<br><b>区位：</b>前门、牛街、护国寺一带<br><b>搭配：</b>两三个就够，配小米粥或豆汁儿；适合当早点或下午茶</p>
+        <p class="where"><span class="wf"><b>推荐：</b>宝瑞门钉肉饼、白魁老号、护国寺小吃</span><span class="wf"><b>人均：</b>20—40 元</span><span class="wf"><b>辣度：</b>不辣（配醋与辣椒油）</span><span class="wf"><b>时段：</b>全天，出锅最好吃，凉了油腻</span><span class="wf"><b>排队：</b>刚出锅那阵要等，等下一锅反而更快</span><span class="wf"><b>区位：</b>前门、牛街、护国寺一带</span><span class="wf"><b>搭配：</b>两三个就够，配小米粥或豆汁儿；适合当早点或下午茶</span></p>
       </div>
       <div class="fd rv" style="--d:.15s">
         <div class="ico"><svg><use href="#f-di"/></svg></div>
         <h3>宫廷小吃</h3>
         <p class="desc">豌豆黄、驴打滚、艾窝窝、糖火烧、芸豆卷，一样来一点，配茶最好。</p>
-        <p class="where"><b>推荐：</b>护国寺小吃、牛街、锦芳<br><b>人均：</b>20—40 元　<b>辣度：</b>不辣<br><b>时段：</b>全天，下午配茶最合适<br><b>排队：</b>不用排，按份自取<br><b>区位：</b>护国寺、牛街、磁器口一带<br><b>搭配：</b>每样买一点拼一盘；豌豆黄与驴打滚最容易接受，芸豆卷偏甜</p>
+        <p class="where"><span class="wf"><b>推荐：</b>护国寺小吃、牛街、锦芳</span><span class="wf"><b>人均：</b>20—40 元</span><span class="wf"><b>辣度：</b>不辣</span><span class="wf"><b>时段：</b>全天，下午配茶最合适</span><span class="wf"><b>排队：</b>不用排，按份自取</span><span class="wf"><b>区位：</b>护国寺、牛街、磁器口一带</span><span class="wf"><b>搭配：</b>每样买一点拼一盘；豌豆黄与驴打滚最容易接受，芸豆卷偏甜</span></p>
       </div>
     </div>
+    <nav class="pager" id="foodPager" aria-label="京味吃食分页" hidden></nav>
   </div>
 </section>
-<section id="gift">
+<section id="gift" class="sec">
   <div class="wrap">
     <div class="shead rv">
       <div class="l"><span class="snum">捌</span><h2>带点什么回去</h2><span class="sen">Souvenirs</span></div>
@@ -1629,7 +1847,7 @@ html[data-theme=dark] #tabbar{background:rgba(23,20,15,.93)}
   </div>
 </section>
 
-<section id="tips" class="alt">
+<section id="tips" class="sec alt">
   <div class="wrap">
     <div class="shead rv">
       <div class="l"><span class="snum">玖</span><h2>出行锦囊</h2><span class="sen">Essentials</span></div>
@@ -1696,7 +1914,7 @@ html[data-theme=dark] #tabbar{background:rgba(23,20,15,.93)}
   </div>
 </section>
 
-<section id="nearby">
+<section id="nearby" class="sec">
   <div class="wrap">
     <div class="shead rv">
       <div class="l"><span class="snum">拾</span><h2>周边还能去哪</h2><span class="sen">Day Trips</span></div>
@@ -1744,13 +1962,13 @@ html[data-theme=dark] #tabbar{background:rgba(23,20,15,.93)}
           <li><a href="tel:12345">12345</a> 北京市民热线：旅游投诉、消费纠纷</li>
           <li><a href="tel:12306">12306</a> 铁路客服：车票、改签与失物查询</li>
         </ul>
-        <a class="fbtn" href="https://wj.qq.com/s2/PLACEHOLDER" target="_blank" rel="noopener">纠错反馈<svg><use href="#i-ext"/></svg></a>
+        <a class="fbtn" href="https://wj.qq.com/s2/PLACEHOLDER" target="_blank" rel="noopener noreferrer">纠错反馈<svg><use href="#i-ext"/></svg></a>
         <small class="fnote">示例链接，上线前请替换成你自己的问卷或邮箱</small>
       </div>
     </div>
 
     <p class="fdisclaim">所有票价、开放时间、交通、路线、节假日安排仅供参考，出行前务必核对景区官方公众号及官网。</p>
-    <p class="sub">数据来源：<a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a>（天气与空气质量）、高德地图瓦片（实景底图）。<br>票价、优惠政策、开放时间、预约规则与限行方案均整理自公开信息，请以官方当日发布为准。</p>
+    <p class="sub">数据来源：<a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Open-Meteo</a>（天气与空气质量）、高德地图瓦片（实景底图）。<br>票价、优惠政策、开放时间、预约规则与限行方案均整理自公开信息，请以官方当日发布为准。</p>
     <p class="ai-note">京都小顾问 · 单页静态工具，无需安装、无账号、不采集任何个人信息</p>
   </div>
 </footer>
@@ -1866,22 +2084,133 @@ addEventListener('keydown',e=>{
   else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}
 });
 
-/* ══ 顶栏 / 侧栏 / 出场动效 ══ */
-const nav=q('#nav'),rail=q('#rail'),links=qa('.nav-links a'),rls=qa('#rail .rl'),tbs=qa('#tabbar button[data-t]'),toTop=q('#toTop');
+/* ══ 顶栏 / 侧栏 / 板块翻页 / 出场动效 ══ */
+const nav=q('#nav'),rail=q('#rail'),links=qa('.nav-links a'),rls=qa('#rail .rl'),tbs=qa('#tabbar button[data-t]'),toTop=q('#toTop'),pgbar=q('#pgbar');
 const SECS=['top','weather','transport','map','spots','plan','stay','food','gift','tips','nearby'];
+const SECN={top:'首页',weather:'今日天气',transport:'交通出行',map:'地图定位',spots:'景区详解',plan:'行程建议',stay:'住宿分区',food:'京味吃食',gift:'特产伴手礼',tips:'出行锦囊',nearby:'京津冀周边'};
+const MODEK='jdxgw.mode.v1';
+let curSec='top',lastHash='';
+/* 书页模式由 <html> 上的 class 决定；head 里的内联脚本已经在首帧前定好了 */
+const isBook=()=>document.documentElement.classList.contains('page-mode');
+
+/* 高亮与页码统一从这里走：书页模式由当前页驱动，长页模式由滚动位置驱动 */
+function setCurrent(id,announce){
+  if(SECS.indexOf(id)<0)id='top';
+  const changed=id!==curSec;
+  curSec=id;
+  links.forEach(a=>{const on=a.getAttribute('href')==='#'+id;a.classList.toggle('on',on);
+    if(on)a.setAttribute('aria-current','true');else a.removeAttribute('aria-current');});
+  rls.forEach(b=>b.classList.toggle('on',b.dataset.t===id));
+  tbs.forEach(b=>b.classList.toggle('on',b.dataset.t===id));
+  if(isBook()){
+    SECS.forEach(s=>{const el=document.getElementById(s);if(el)el.classList.toggle('on',s===id);});
+    document.documentElement.classList.remove('pg-jump');
+    const i=SECS.indexOf(id),pv=q('#pgPrev'),nx=q('#pgNext');
+    pv.disabled=i<=0;nx.disabled=i>=SECS.length-1;
+    pv.setAttribute('aria-label',i>0?'上一页：'+SECN[SECS[i-1]]:'已经是第一页');
+    nx.setAttribute('aria-label',i<SECS.length-1?'下一页：'+SECN[SECS[i+1]]:'已经是最后一页');
+    /* 板块名单独包一层，窄屏用 CSS 隐掉它、只留页码 */
+    q('#pgPill').innerHTML='第 <b>'+(i+1)+'</b> / '+SECS.length+' 页<span class="pn"> · '+SECN[id]+'</span>';
+  }
+  if(announce&&changed)say(SECN[id]+'，第 '+(SECS.indexOf(id)+1)+' / '+SECS.length+' 页');
+}
+/* 去某个板块：书页模式换一页并回到顶部，长页模式平滑滚过去 */
+function go(id,noScroll){
+  if(SECS.indexOf(id)<0)id='top';
+  if(isBook()){
+    const h='#'+id;
+    if(location.hash!==h){lastHash=h;try{location.hash=h;}catch(e){}}
+    setCurrent(id,true);
+    if(!noScroll)scrollTo({top:0,behavior:'smooth'});
+  }else{
+    const el=document.getElementById(id);
+    if(el)el.scrollIntoView({behavior:'smooth',block:'start'});
+  }
+}
+addEventListener('hashchange',()=>{
+  if(!isBook())return;
+  /* 自己设的 hash 上面已经处理过了，这里只管用户的后退/前进/手改地址 */
+  if(location.hash===lastHash){lastHash='';return;}
+  const id=(location.hash||'#top').slice(1);
+  setCurrent(id,true);
+  scrollTo({top:0,behavior:'smooth'});
+});
 addEventListener('scroll',()=>{
   const y=scrollY; nav.classList.toggle('scrolled',y>20);
-  toTop.classList.toggle('on',y>680);
+  /* 整条翻页/回顶栏：书页模式下常显，长页模式下滚过一段才浮出来 */
+  pgbar.classList.toggle('on',isBook()||y>680);
+  toTop.disabled=isBook()&&y<120;   /* 已经在页顶时不给一个点了没反应的按钮 */
+  /* 书页模式下当前页是已知的，不必每帧量 11 个 offsetTop（那是强制重排） */
+  if(isBook())return;
   let cur='top';
   SECS.forEach(id=>{const el=document.getElementById(id); if(el&&el.offsetTop-140<=y)cur=id;});
-  links.forEach(a=>{const on=a.getAttribute('href')==='#'+cur;a.classList.toggle('on',on);
-    if(on)a.setAttribute('aria-current','true');else a.removeAttribute('aria-current');});
-  rls.forEach(b=>b.classList.toggle('on',b.dataset.t===cur));
-  tbs.forEach(b=>b.classList.toggle('on',b.dataset.t===cur));
+  if(cur!==curSec)setCurrent(cur,false);
 },{passive:true});
-rls.forEach(b=>b.addEventListener('click',()=>{const el=document.getElementById(b.dataset.t); if(el)el.scrollIntoView({behavior:'smooth',block:'start'});}));
-tbs.forEach(b=>b.addEventListener('click',()=>{const el=document.getElementById(b.dataset.t); if(el)el.scrollIntoView({behavior:'smooth',block:'start'});}));
+rls.forEach(b=>b.addEventListener('click',()=>go(b.dataset.t)));
+tbs.forEach(b=>b.addEventListener('click',()=>go(b.dataset.t)));
+/* 站内锚点（顶栏、首屏按钮、品牌）在书页模式下改成翻页，长页模式仍用浏览器默认的跳转 */
+document.addEventListener('click',e=>{
+  const a=e.target.closest('a[href^="#"]');
+  if(!a||!isBook())return;
+  const id=a.getAttribute('href').slice(1);
+  if(SECS.indexOf(id)<0)return;
+  e.preventDefault();go(id);
+});
+q('#pgPrev').addEventListener('click',()=>{const i=SECS.indexOf(curSec);if(i>0)go(SECS[i-1]);});
+q('#pgNext').addEventListener('click',()=>{const i=SECS.indexOf(curSec);if(i<SECS.length-1)go(SECS[i+1]);});
+/* ← → 翻页；在输入框里打字、或浮层打开时不抢键 */
+addEventListener('keydown',e=>{
+  if(!isBook()||e.ctrlKey||e.metaKey||e.altKey||e.shiftKey)return;
+  if(e.key!=='ArrowLeft'&&e.key!=='ArrowRight')return;
+  const t=e.target,tag=(t.tagName||'').toLowerCase();
+  if(tag==='input'||tag==='textarea'||tag==='select'||t.isContentEditable)return;
+  if(q('.ov.on')||q('#modal.on')||q('#ask.on'))return;
+  const i=SECS.indexOf(curSec);
+  if(e.key==='ArrowLeft'&&i>0){e.preventDefault();go(SECS[i-1]);}
+  else if(e.key==='ArrowRight'&&i<SECS.length-1){e.preventDefault();go(SECS[i+1]);}
+});
+/* 长页 / 翻页 模式开关 */
+function applyMode(book,announce){
+  document.documentElement.classList.toggle('page-mode',book);
+  try{localStorage.setItem(MODEK,book?'book':'long');}catch(e){}
+  const b=q('#navMode');
+  if(b){
+    q('.lb',b).textContent=book?'翻页':'长页';
+    b.setAttribute('aria-pressed',String(book));
+    b.setAttribute('aria-label',book?'当前是翻页浏览，点击切换成一页到底的长页':'当前是一页到底的长页，点击切换成翻页浏览');
+  }
+  if(book){
+    setCurrent(curSec,false);
+    scrollTo({top:0,behavior:'auto'});
+    if(announce)say('已切换成翻页浏览，用左右方向键或底部两侧的箭头翻页');
+  }else{
+    SECS.forEach(s=>{const el=document.getElementById(s);if(el)el.classList.remove('on');});
+    document.documentElement.classList.remove('pg-jump');
+    const el=document.getElementById(curSec);
+    if(el)requestAnimationFrame(()=>el.scrollIntoView({block:'start'}));
+    if(announce)say('已切换成一页到底的长页浏览');
+  }
+  /* 书页模式常显这条；长页模式只有滚过一段才浮出来 */
+  pgbar.classList.toggle('on',book||scrollY>680);
+  toTop.disabled=book&&scrollY<120;
+}
+q('#navMode').addEventListener('click',()=>applyMode(!isBook(),true));
+/* 初始化：书页模式下按锚点落在对应那一页，没有锚点就落在首屏 */
+curSec=(function(){const h=(location.hash||'').slice(1);return SECS.indexOf(h)>=0?h:'top';})();
+applyMode(isBook(),false);
+setCurrent(curSec,false);
+document.documentElement.classList.add('pg-ready');   /* 交棒：:target 到此为止，之后只认 .on */
 toTop.addEventListener('click',()=>scrollTo({top:0,behavior:'smooth'}));
+/* 顶栏在窄屏会折成两行，把实测高度写进 --nav-h：
+   锚点定位（scroll-padding / scroll-margin）与书页模式的板块顶部留白都跟着它走，
+   不再各自写死 92px / 104px 这类按桌面顶栏算出来的常量。 */
+function syncNavH(){
+  const h=Math.round(nav.getBoundingClientRect().height);
+  if(h)document.documentElement.style.setProperty('--nav-h',h+'px');
+}
+syncNavH();
+addEventListener('resize',syncNavH);
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(syncNavH);
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{rootMargin:'0px 0px -8% 0px',threshold:.05});
 qa('.rv').forEach(el=>io.observe(el));
 
@@ -1896,12 +2225,28 @@ function tick(){
 }
 tick();setInterval(tick,1000);
 
-/* ══ 尾号限行 ══ */
+/* ══ 尾号限行 ══
+   PERIODS   轮换执行期。官方每 13 周公布一次，新一期公布后在这里追加一条（匹配时从后往前找）
+   FREE_DAYS 法定节假日，不限行
+   MAKEUP    因放假调休而调整为上班的星期六、星期日。按北京市通告原文，这两天属于
+             「工作日（因法定节假日放假调休而调整为上班的星期六、星期日除外）」的排除项，
+             **仍然不限行**——列在这里只是为了让提示文案说得准确，不参与限行计算
+   数据依据《国务院办公厅关于 2026 年部分节假日安排的通知》与北京尾号限行轮换通告。
+   2027 年的放假通知公布后，需要补 FREE_DAYS / MAKEUP。 */
 const PERIODS=[
   {s:'2026-09-28',e:'2026-12-27',t:[['5','0'],['1','6'],['2','7'],['3','8'],['4','9']]},
   {s:'2026-12-28',e:'2027-03-28',t:[['4','9'],['5','0'],['1','6'],['2','7'],['3','8']]}
 ];
-const FREE_DAYS=['2026-10-01','2026-10-02','2026-10-03','2026-10-04','2026-10-05','2026-10-06','2026-10-07','2026-10-08'];
+const FREE_DAYS=[
+  '2026-01-01','2026-01-02','2026-01-03',
+  '2026-02-15','2026-02-16','2026-02-17','2026-02-18','2026-02-19','2026-02-20','2026-02-21','2026-02-22','2026-02-23',
+  '2026-04-04','2026-04-05','2026-04-06',
+  '2026-05-01','2026-05-02','2026-05-03','2026-05-04','2026-05-05',
+  '2026-06-19','2026-06-20','2026-06-21',
+  '2026-09-25','2026-09-26','2026-09-27',
+  '2026-10-01','2026-10-02','2026-10-03','2026-10-04','2026-10-05','2026-10-06','2026-10-07'
+];
+const MAKEUP=['2026-01-04','2026-02-14','2026-02-28','2026-05-09','2026-09-20','2026-10-10'];
 const WD=['周日','周一','周二','周三','周四','周五','周六'];
 const dkey=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
 const parseD=s=>{const a=s.split('-');return new Date(+a[0],+a[1]-1,+a[2]);};
@@ -1912,7 +2257,7 @@ function periodOf(d){
 function limitOf(d){
   const k=dkey(d),wd=d.getDay();
   if(FREE_DAYS.indexOf(k)>=0)return{free:true,why:'法定节假日不限行'};
-  if(wd===0||wd===6)return{free:true,why:'周末不限行'};
+  if(wd===0||wd===6)return{free:true,why:MAKEUP.indexOf(k)>=0?'调休上班日，按通告仍不限行':'周末不限行'};
   const p=periodOf(d);
   return{free:false,t:p.t[wd-1],wd:wd,period:p};
 }
@@ -1920,26 +2265,29 @@ function limitText(d){
   const r=limitOf(d);
   return r.free?{v:'不限行',s:r.why,free:true}:{v:r.t[0]+' 和 '+r.t[1],s:'7:00—20:00 · 五环内',free:false};
 }
-function nextWorkday(d){const n=new Date(d.getTime()+864e5);return n;}
+const nextDay=d=>new Date(d.getTime()+864e5);
 (function renderLimit(){
-  const now=new Date(),lv=q('#limitV'),box=q('#limitToday'),tb=q('#limitTable');
-  const a=limitText(now),b=limitText(nextWorkday(now));
+  const now=new Date(),lv=q('#limitV'),box=q('#limitToday'),tb=q('#limitTable'),pd=q('#limitPeriod');
+  const a=limitText(now),b=limitText(nextDay(now));
   if(lv){lv.textContent=a.v;lv.title=a.s;const l=q('#lvLimit');l&&l.classList.remove('load');}
   const mk=(d,r,label)=>{
     const cls=r.free?'limit-cell free':'limit-cell';
     return '<div class="'+cls+'"><div class="lk">'+label+' · '+(d.getMonth()+1)+' 月 '+d.getDate()+' 日 '+WD[d.getDay()]+'</div>'+
       '<div class="lv2">'+r.v+'<small>'+r.s+'</small></div></div>';
   };
-  if(box)box.innerHTML=mk(now,a,'今日')+mk(nextWorkday(now),b,'明日');
+  if(box)box.innerHTML=mk(now,a,'今日')+mk(nextDay(now),b,'明日');
   if(tb){
-    const p=periodOf(now),wd=now.getDay();
-    let h='<thead><tr><th colspan="5">当前执行期 '+p.s.replace(/-/g,'.')+' — '+p.e.replace(/-/g,'.')+'</th></tr><tr>';
-    ['周一','周二','周三','周四','周五'].forEach((x,i)=>h+='<th'+(i+1===wd?' style="color:var(--wall)"':'')+'>'+x+'</th>');
+    const p=periodOf(now),wd=now.getDay(),DAYN=['周一','周二','周三','周四','周五'];
+    let h='<thead><tr>';
+    DAYN.forEach((x,i)=>h+='<th'+(i+1===wd?' style="color:var(--wall)"':'')+'>'+x+'</th>');
     h+='</tr></thead><tbody><tr>';
-    p.t.forEach((t,i)=>h+='<td class="'+(i+1===wd?'on':'')+'">'+t[0]+' 和 '+t[1]+'</td>');
+    /* data-label 供窄屏卡片式布局显示字段名，不依赖 nth-child，加列不会串位 */
+    p.t.forEach((t,i)=>h+='<td class="'+(i+1===wd?'on':'')+'" data-label="'+DAYN[i]+'">'+t[0]+' 和 '+t[1]+'</td>');
     h+='</tr></tbody>';
     tb.innerHTML=h;
   }
+  /* 执行期单独成行，窄屏把表头隐藏后这条信息仍然看得到 */
+  if(pd){const p=periodOf(now);pd.textContent='当前执行期 '+p.s.replace(/-/g,'.')+' — '+p.e.replace(/-/g,'.')+'，每周一至周五依次限行上述尾号。';}
 })();
 
 /* ══ 天气 ══ */
@@ -2518,12 +2866,106 @@ const SORTS=[
 const LV=[['acc','i-acc','无障碍友好','无障碍'],['stroller','i-stroller','婴儿车友好','推车'],['elder','i-elder','老人体力友好','老人']];
 const lvHtml=s=>LV.map(l=>'<span class="'+(s[l[0]]?'on':'')+'" title="'+l[2]+'：'+(s[l[0]]?'友好':'不推荐')+'" aria-label="'+l[2]+'：'+(s[l[0]]?'友好':'不推荐')+'">'+ic(l[1])+l[3]+'</span>').join('');
 
-/* ══ 景区：类别多选筛选 + 排序 + 卡片渲染 ══ */
-(function(){
-  const grid=q('#spotGrid'),f=q('#filters'),st=q('#sorts'),empty=q('#fEmpty'),cntEl=q('#fCount'),clr=q('#fClear');
-  let sel=[],sortI=0;
+/* 室内为主、下雨天照样能逛的判定；「按需定制」那边的 indoor 模式也复用这一条 */
+const INDOOR=/博物馆|美术馆|科技馆|艺术区/;
+/* 筛选项 = 7 个类别 + 3 个属性（免费 / 需预约 / 雨天可去），全部按 OR 并集叠加 */
+const ATTRS=[['免费',s=>s.fee===0],['需预约',s=>needBook(s)],['雨天可去',s=>INDOOR.test(s.name)]];
+const FACET=CATS.map(c=>[c,s=>s.cat===c]).concat(ATTRS);
+const FHIT={};FACET.forEach(a=>FHIT[a[0]]=a[1]);
 
-  const card=(s,i)=>'<div class="spot rv" data-i="'+i+'" data-cat="'+s.cat+'" style="--d:'+((i%3)*.06).toFixed(2)+'s">'+
+/* ══ 通用分页控件 ══
+   只负责画「共 N 条 · 第 X / Y 页 + 上一页 / 页码 / 下一页」并接住点击，
+   「怎么显示第 N 页」交给各板块自己：景区是切片重绘，住宿与京味是切显隐。 */
+function pagerUI(box,page,total,per,onGo,unit,onlyWhenMultiple){
+  const pages=Math.max(1,Math.ceil(total/per));
+  /* onlyWhenMultiple：板块内分页只在真的超过一页时才出现（伴手礼 4 条这类就不显示控件）；
+     景区那边不传，只要筛出结果就显示「共 N 处 · 第 X / Y 页」 */
+  if(!total||(onlyWhenMultiple&&pages<=1)){box.hidden=true;box.innerHTML='';box.onclick=null;return pages;}
+  box.hidden=false;
+  /* 页数不多就全列；多了只留首尾与当前页附近，中间用省略号顶上 */
+  const nums=[];
+  for(let i=1;i<=pages;i++){
+    if(pages<=7||i===1||i===pages||Math.abs(i-page)<=1)nums.push(i);
+    else if(nums[nums.length-1]!=='…')nums.push('…');
+  }
+  box.innerHTML='<span class="pg-info">共 <b>'+total+'</b> '+unit+' · 第 <b>'+page+'</b> / '+pages+' 页</span>'+
+    '<div class="pg-list">'+
+      '<button type="button" data-pg="'+(page-1)+'"'+(page<=1?' disabled':'')+'>上一页</button>'+
+      nums.map(n=>n==='…'?'<span class="pg-gap" aria-hidden="true">…</span>'
+        :'<button type="button" data-pg="'+n+'"'+(n===page?' aria-current="page"':'')+'>'+n+'</button>').join('')+
+      '<button type="button" data-pg="'+(page+1)+'"'+(page>=pages?' disabled':'')+'>下一页</button>'+
+    '</div>';
+  box.onclick=e=>{
+    const b=e.target.closest('button[data-pg]');
+    if(!b||b.disabled)return;
+    const p=+b.dataset.pg;
+    if(p===page)return;
+    onGo(p);
+  };
+  return pages;
+}
+/* 只读写自己的那个查询参数，不动 URL 上其它的（景区的 f/s/q/p 与本节的页码互不干扰） */
+function readNum(key){
+  try{return Math.max(parseInt(new URLSearchParams(location.search).get(key),10)||1,1);}catch(e){return 1;}
+}
+function writeNum(key,val){
+  try{
+    const u=new URLSearchParams(location.search);
+    if(val>1)u.set(key,String(val));else u.delete(key);
+    const qs=u.toString();
+    history.replaceState(null,'',location.pathname+(qs?'?'+qs:'')+(location.hash||''));
+  }catch(e){/* file:// 或权限受限时忽略 */}
+}
+/* 板块内分页（显隐式）：卡片一次铺完，翻页只切 .pg-off，不重绘 DOM */
+const PAGED=[];
+function makePaged(cfg){
+  const cards=qa(cfg.sel,cfg.grid),total=cards.length;
+  const pages=Math.max(1,Math.ceil(total/cfg.per));
+  const st={grid:cfg.grid,sel:cfg.sel,per:cfg.per,page:1,pages:pages,go:null};
+  function show(p,announce){
+    p=Math.min(Math.max(p,1),pages);
+    st.page=p;
+    cards.forEach((c,i)=>c.classList.toggle('pg-off',Math.floor(i/cfg.per)!==p-1));
+    /* 翻页时把这一页的卡片直接置为「已出场」，否则它们在被隐藏期间拿不到 IntersectionObserver 的触发 */
+    if(announce)cards.forEach(c=>c.classList.add('in'));
+    pagerUI(cfg.box,p,total,cfg.per,nq=>{show(nq,true);writeNum(cfg.key,nq);},cfg.unit,true);
+    if(announce)say(cfg.name+'第 '+p+' 页，共 '+pages+' 页');
+  }
+  st.go=show;
+  PAGED.push(st);
+  show(readNum(cfg.key),false);
+  return st;
+}
+/* 把被板块内分页藏起来的元素露出来——全站搜索跳转到一个不在当前页的条目时要用 */
+function revealEl(el){
+  for(let i=0;i<PAGED.length;i++){
+    const g=PAGED[i],card=el.closest(g.sel);
+    if(!card||!g.grid.contains(card))continue;
+    const idx=qa(g.sel,g.grid).indexOf(card);
+    if(idx<0)continue;
+    const p=Math.floor(idx/g.per)+1;
+    if(p!==g.page)g.go(p,false);
+    return true;
+  }
+  return false;
+}
+
+/* ══ 景区：搜索 + 多条件筛选（OR）+ 排序 + 分页 ══
+   底层数据仍是顶层的 SPOTS 数组，这里只做视图层切片：
+   先按「属性筛选 ∪ 搜索命中」筛出结果，再排序，最后只把当前页的 8 条渲染进 DOM。
+   分页只作用于这一个板块，页面其余部分、浏览器刷新行为与历史记录都不受影响。 */
+const PER_PAGE=8;
+/* 「心愿单」那段代码在文件后面才初始化 FAV，在那之前不能调 favPaint()。
+   它初始化完会把 favReady 置为 true，之后每次翻页或筛选重绘才能重新点亮已收藏的卡片。 */
+let favReady=false;
+
+(function(){
+  const grid=q('#spotGrid'),f=q('#filters'),st=q('#sorts'),empty=q('#fEmpty'),cntEl=q('#fCount'),
+        clr=q('#fClear'),pager=q('#pager'),qIn=q('#spotQ'),qClr=q('#spotQClear');
+  let sel=[],sortI=0,page=1,query='';
+
+  /* pos 只用于入场动画错峰；i 是 SPOTS 里的下标，详情弹窗靠它定位 */
+  const card=(s,i,pos)=>'<div class="spot rv" data-i="'+i+'" data-cat="'+s.cat+'" style="--d:'+((pos%3)*.06).toFixed(2)+'s">'+
     '<button class="fav" data-fav="'+s.k+'" data-name="'+s.name+'" aria-pressed="false" aria-label="把'+s.name+'加入心愿单"><svg><use href="#i-star"/></svg></button>'+
     '<span class="ghost">'+String(i+1).padStart(2,'0')+' / '+s.ghost+'</span>'+
     (s.fee===0?'<span class="free">免费</span>':'')+
@@ -2536,57 +2978,150 @@ const lvHtml=s=>LV.map(l=>'<span class="'+(s[l[0]]?'on':'')+'" title="'+l[2]+'�
     '<span class="lv">'+lvHtml(s)+'</span>'+
     '</div>';
 
-  grid.innerHTML=SPOTS.map(card).join('');
-  const cards=qa('.spot',grid);
-  cards.forEach(b=>{
-    io.observe(b);
-    b.addEventListener('click',e=>{if(!e.target.closest('.fav'))openModal(+b.dataset.i);});
+  /* 点卡片打开详情。事件委托绑在容器上，翻页重绘后不必重新绑定；
+     收藏按钮由「心愿单」那段的委托处理器单独接管，这里要放行 */
+  grid.addEventListener('click',e=>{
+    if(e.target.closest('.fav'))return;
+    const el=e.target.closest('.spot');
+    if(el)openModal(+el.dataset.i);
   });
 
-  /* 类别按钮（多选，逻辑为 OR） */
-  f.innerHTML=CATS.map(c=>{
-    const n=SPOTS.filter(s=>s.cat===c).length;
-    return '<button class="f" data-cat="'+c+'" aria-pressed="false">'+c+'<span class="n">'+n+'</span></button>';
+  /* 类别与属性都是多选，逻辑为 OR 并集；属性用虚线边框区分 */
+  const catSet={};CATS.forEach(c=>catSet[c]=1);
+  f.innerHTML=FACET.map(([k,hit])=>{
+    const n=SPOTS.filter(hit).length;
+    return '<button class="f" data-f="'+k+'"'+(catSet[k]?'':' data-kind="attr"')+' aria-pressed="false">'+k+'<span class="n">'+n+'</span></button>';
   }).join('');
   /* 排序按钮（单选） */
   st.innerHTML=SORTS.map((o,i)=>'<button data-sort="'+i+'" aria-pressed="'+(i===0)+'">'+o[0]+'</button>').join('');
+  const fBtns=qa('button',f),sBtns=qa('button',st);
 
-  function paint(announce){
-    const hit=SPOTS.map((s,i)=>i).filter(i=>!sel.length||sel.indexOf(SPOTS[i].cat)>=0);
-    const ord=hit.slice();
-    if(SORTS[sortI][1])ord.sort((a,b)=>SORTS[sortI][1](SPOTS[a],SPOTS[b]));
-    ord.forEach((i,pos)=>{cards[i].style.order=pos;});
-    const on=ord.length?ord.map(i=>cards[i]):[];
-    cards.forEach(c=>{c.classList.toggle('hide',on.indexOf(c)<0);});
-    empty.hidden=on.length>0;
-    grid.hidden=!on.length;
-    cntEl.textContent='共 '+on.length+' 处'+(sel.length?' · 已选 '+sel.length+' 个类别':'');
-    clr.hidden=!(sel.length||sortI);
-    if(announce)say('筛选后剩 '+on.length+' 处景点');
+  /* 搜索：一个词同时匹配中文名、全拼、拼音首字母，大小写不敏感 */
+  const matchQ=s=>!query||(s.name+' '+s.py+' '+s.pyi).toLowerCase().indexOf(query.toLowerCase())>=0;
+  /* 先筛后排序，返回 SPOTS 的下标数组（不改动 SPOTS 本身） */
+  function filtered(){
+    const idx=[];
+    SPOTS.forEach((s,i)=>{if((!sel.length||sel.some(k=>FHIT[k](s)))&&matchQ(s))idx.push(i);});
+    if(SORTS[sortI][1])idx.sort((a,b)=>SORTS[sortI][1](SPOTS[a],SPOTS[b]));
+    return idx;
   }
-  const reset=()=>{sel=[];sortI=0;
-    qa('button',f).forEach(b=>{b.classList.remove('on');b.setAttribute('aria-pressed','false');});
-    qa('button',st).forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.sort==='0')));
-    paint(true);q('#filters').scrollIntoView({behavior:'smooth',block:'start'});};
 
-  qa('button',f).forEach(b=>b.addEventListener('click',()=>{
-    const c=b.dataset.cat,i=sel.indexOf(c);
-    if(i<0)sel.push(c);else sel.splice(i,1);
-    const on=sel.indexOf(c)>=0;
-    b.classList.toggle('on',on);b.setAttribute('aria-pressed',String(on));
-    paint(true);
+  /* 视图状态写进 URL（?f=古迹,免费&s=2&q=gg&p=2）：刷新不丢，链接也能分享给别人。
+     file:// 下 replaceState 可能被拒，失败就静默跳过，不影响筛选本身。 */
+  function syncURL(){
+    try{
+      const u=new URLSearchParams(location.search);
+      if(sel.length)u.set('f',sel.join(','));else u.delete('f');
+      if(sortI)u.set('s',String(sortI));else u.delete('s');
+      if(query)u.set('q',query);else u.delete('q');
+      if(page>1)u.set('p',String(page));else u.delete('p');
+      const qs=u.toString();
+      history.replaceState(null,'',location.pathname+(qs?'?'+qs:'')+(location.hash||''));
+    }catch(e){/* 无权限时忽略 */}
+  }
+  function readURL(){
+    try{
+      const u=new URLSearchParams(location.search);
+      const fs=(u.get('f')||'').split(',').filter(x=>FHIT[x]);
+      const si=Math.min(Math.max(parseInt(u.get('s'),10)||0,0),SORTS.length-1);
+      return [fs,si,(u.get('q')||'').slice(0,40),Math.max(parseInt(u.get('p'),10)||1,1)];
+    }catch(e){return [[],[],'',1];}
+  }
+
+  /* 重绘当前页。filtered() 已经排好序，这里只切片 */
+  function paint(announce){
+    const list=filtered();
+    const pages=Math.max(1,Math.ceil(list.length/PER_PAGE));
+    page=Math.min(Math.max(page,1),pages);
+    const slice=list.slice((page-1)*PER_PAGE,page*PER_PAGE);
+    grid.innerHTML=slice.map((i,pos)=>card(SPOTS[i],i,pos)).join('');
+    qa('.spot',grid).forEach(el=>io.observe(el));
+    empty.hidden=!!list.length;
+    grid.hidden=!list.length;
+    /* 控件交给通用组件画；翻页时切片重绘，并把列表顶部带回视野 */
+    pagerUI(pager,page,list.length,PER_PAGE,p=>{
+      page=p;paint(true);syncURL();
+      if(grid.getBoundingClientRect().top<60)grid.scrollIntoView({behavior:'smooth',block:'start'});
+    },'处');
+    cntEl.textContent='共 '+list.length+' 处'+(sel.length?' · 已选 '+sel.length+' 个条件':'')+(query?' · 搜索「'+query+'」':'');
+    clr.hidden=!(sel.length||sortI);
+    /* 重绘会丢掉卡片的收藏高亮，这里补回来（要等「心愿单」那段初始化完） */
+    if(favReady)favPaint();
+    if(announce)say('第 '+page+' 页，共 '+list.length+' 处景点');
+  }
+  /* 把按钮选中态与搜索框清空按钮按当前状态刷一遍 */
+  function syncBtns(){
+    fBtns.forEach(b=>{const on=sel.indexOf(b.dataset.f)>=0;
+      b.classList.toggle('on',on);b.setAttribute('aria-pressed',String(on));});
+    sBtns.forEach(b=>b.setAttribute('aria-pressed',String(+b.dataset.sort===sortI)));
+    if(qClr)qClr.hidden=!query;
+  }
+  const reset=()=>{sel=[];sortI=0;query='';page=1;qIn.value='';
+    syncBtns();paint(true);syncURL();
+    q('#filters').scrollIntoView({behavior:'smooth',block:'start'});};
+
+  /* 筛选、搜索、排序任一变化 → 回到第 1 页（清单要求 6） */
+  fBtns.forEach(b=>b.addEventListener('click',()=>{
+    const k=b.dataset.f,i=sel.indexOf(k);
+    if(i<0)sel.push(k);else sel.splice(i,1);
+    page=1;syncBtns();paint(true);syncURL();
   }));
-  qa('button',st).forEach(b=>b.addEventListener('click',()=>{
-    sortI=+b.dataset.sort;
-    qa('button',st).forEach(x=>x.setAttribute('aria-pressed',String(+x.dataset.sort===sortI)));
-    paint(true);
+  sBtns.forEach(b=>b.addEventListener('click',()=>{
+    sortI=+b.dataset.sort;page=1;syncBtns();paint(true);syncURL();
   }));
   clr.addEventListener('click',reset);
   q('#fEmptyClear').addEventListener('click',reset);
-  paint(false);
+  qIn.addEventListener('input',()=>{
+    query=qIn.value.trim();page=1;syncBtns();paint(false);syncURL();
+  });
+  qClr.addEventListener('click',()=>{
+    qIn.value='';query='';page=1;syncBtns();paint(true);syncURL();qIn.focus();
+  });
+
+  /* 翻页：纯前端切片重绘，不刷新页面、不进浏览器历史 */
+  /* 从 URL 恢复上次的筛选、排序、搜索词与页码 */
+  const [rf,rs,rq,rp]=readURL();
+  sel=rf.filter(k=>FHIT[k]);sortI=rs;query=rq;page=rp;
+  if(query)qIn.value=query;
+  syncBtns();paint(false);
+})();
+
+/* ══ 预约聚合卡片：放在景区列表上方 ══
+   内容全部从 SPOTS 现取（名称 / 预约方式 / 开放时间），不另存一份，避免和数据数组不同步。
+   顺序按「最紧张的先说」排。 */
+const BOOK_KEYS=['gugong','tam','guobo','yonghegong','badaling','universal'];
+(function(){
+  const box=q('#bookAgg');if(!box)return;
+  const list=BOOK_KEYS.map(k=>SPOTS.filter(s=>s.k===k)[0]).filter(Boolean);
+  const now=new Date(),wd=now.getDay();
+  let hint;
+  if(wd===1){
+    hint='今天就是周一——下面标了「周一闭馆」的场馆今天不开放，别白跑。';
+  }else{
+    const d=new Date(now.getTime());
+    d.setDate(d.getDate()+((8-wd)%7));
+    hint='最近一个周一是 '+(d.getMonth()+1)+' 月 '+d.getDate()+' 日——标了「周一闭馆」的场馆那天不开（法定节假日除外）。';
+  }
+  box.innerHTML=
+    '<div class="book-head"><span class="bi">'+ic('i-ticket')+'</span>'+
+      '<div><h3>要预约的几处 <span>BOOK AHEAD</span></h3>'+
+      '<p>北京最常把人挡在门外的是<b>没预约</b>。下面这几处都要实名、各自的渠道互不通用，<b>定下行程就先约</b>。'+
+      '<span class="bh-hint">'+hint+'</span></p></div></div>'+
+    '<div class="tbl-wrap"><table class="tbl book-tbl">'+
+      '<thead><tr><th>场馆</th><th>预约方式</th><th>开放与闭馆</th></tr></thead><tbody>'+
+      list.map(s=>'<tr>'+
+        '<td>'+s.name+'</td>'+
+        '<td data-label="预约方式">'+s.book+'</td>'+
+        '<td data-label="开放与闭馆">'+s.open+(/周一闭馆/.test(s.open)?' <span class="closed">周一注意</span>':'')+'</td>'+
+      '</tr>').join('')+
+    '</tbody></table></div>'+
+    '<div class="book-foot">各馆放票时间与名额会随时调整，以上是常见规则，<b>以官方公众号与小程序当日公告为准</b>。</div>';
 })();
 
 /* ══ 住宿分区 / 特产伴手礼 / 周边联动：渲染 ══ */
+/* 复制给用户拿去别的平台搜的关键词；「长城脚下的民宿」这条直接拼片区名不成句，单独给一个 */
+const STAY_Q={'长城脚下的民宿':'北京 慕田峪 古北水镇 民宿 推荐'};
+const stayQuery=s=>STAY_Q[s.n]||('北京 '+s.n.split(' · ')[0]+' 住宿 推荐');
 (function(){
   const g=q('#stayGrid');
   if(g){
@@ -2597,6 +3132,7 @@ const lvHtml=s=>LV.map(l=>'<span class="'+(s[l[0]]?'on':'')+'" title="'+l[2]+'�
       '<p class="fit"><b>适合：</b>'+s.fit+'</p>'+
       '<div class="li gd">'+ic('i-check')+'<span>'+s.good+'</span></div>'+
       '<div class="li bd">'+ic('i-warn')+'<span>'+s.bad+'</span></div>'+
+      '<button class="stay-copy" type="button" data-q="'+stayQuery(s)+'">'+ic('i-copy')+'复制搜索词</button>'+
     '</div>').join('');
     qa('.rv',g).forEach(el=>io.observe(el));
   }
@@ -2614,10 +3150,43 @@ const lvHtml=s=>LV.map(l=>'<span class="'+(s[l[0]]?'on':'')+'" title="'+l[2]+'�
     ng.innerHTML=NEARBY.map(s=>'<div class="near rv">'+
       '<div class="nl"><h3>'+s.n+'</h3><span class="ne">'+s.en+'</span>'+
         '<p class="nr"><b>怎么去：</b>'+s.how+'<br><b>建议天数：</b>'+s.days+'</p></div>'+
-      '<div><p class="np">'+s.plan+'</p><p class="nt">'+ic('i-info')+'<span>'+s.tip+'</span></p></div>'+
+      '<div><details class="fold first"><summary>串联方案<span class="fc">ITINERARY</span></summary>'+
+        '<div class="fd-body"><p class="np">'+s.plan+'</p></div></details>'+
+        '<p class="nt">'+ic('i-info')+'<span>'+s.tip+'</span></p></div>'+
     '</div>').join('');
     qa('.rv',ng).forEach(el=>io.observe(el));
   }
+})();
+/* ══ 板块内列表分页：住宿与京味各 9 条，每页 6 条、分 2 页 ══
+   这两块一次铺完所有卡片，翻页只切显隐、不重绘 DOM ——「全站搜索」的索引是从 DOM 抓的，
+   而且跳转回调闭包持有这些节点，重绘会让搜索结果点了没反应。
+   其余板块的卡片都不到一页（交通 5、锦囊 5、伴手礼 4、周边 3），通用组件会自动不显示控件。 */
+makePaged({grid:q('#stayGrid'),box:q('#stayPager'),sel:'.stay',per:6,key:'sg',unit:'处',name:'住宿分区'});
+makePaged({grid:q('#foodGrid'),box:q('#foodPager'),sel:'.fd',per:6,key:'fg',unit:'样',name:'京味吃食'});
+/* 住宿卡片上的「复制搜索词」：复制的是拿去别的平台搜的短句，不是页面链接 */
+q('#stayGrid').addEventListener('click',e=>{
+  const b=e.target.closest('.stay-copy');if(!b)return;
+  copyText(b.dataset.q,'已复制「'+b.dataset.q+'」，粘到订房平台就能搜。');
+});
+
+/* ══ 四段长城横向对比 ══
+   距离 / 票价 / 交通 / 时长都从 SPOTS 现取（避免两处数据打架），
+   「人多人少」与「适合谁」是额外的判断，写在这里。 */
+const HILL_KEYS=['badaling','mutianyu','juyongguan','simatai'];
+const HILL_CROWD={badaling:'很多，节假日拥挤',mutianyu:'中等，比八达岭好',juyongguan:'较少，基本不排队',simatai:'白天中等，夜场更松'};
+const HILL_WHO={badaling:'第一次来北京、想最省事',mutianyu:'带孩子、想人少一点',juyongguan:'自驾或走半天、怕排队',simatai:'愿意住一晚、想看夜长城'};
+(function(){
+  const tb=q('#hillTbl');if(!tb)return;
+  const list=HILL_KEYS.map(k=>SPOTS.filter(s=>s.k===k)[0]).filter(Boolean);
+  tb.innerHTML='<thead><tr><th>长城段</th><th>离天安门</th><th>怎么去</th><th>人多不多</th><th>门票</th><th>适合谁</th></tr></thead><tbody>'+
+    list.map(s=>'<tr>'+
+      '<td>'+s.name+'</td>'+
+      '<td data-label="离天安门">约 '+Math.round(distOf(s))+' 公里（直线）<br><span class="mini">建议 '+s.dur+'</span></td>'+
+      '<td data-label="怎么去">'+s.traf+'</td>'+
+      '<td data-label="人多不多">'+HILL_CROWD[s.k]+'</td>'+
+      '<td data-label="门票">'+s.t.split('（')[0]+'</td>'+
+      '<td data-label="适合谁">'+HILL_WHO[s.k]+'</td>'+
+    '</tr>').join('')+'</tbody>';
 })();
 /* ══ 心愿单 ══ */
 const FAVK='jdxgw.fav.v1';
@@ -2691,6 +3260,8 @@ q('#favPlan').addEventListener('click',()=>{
   say('已按心愿单排出 '+days+' 天行程');
 });
 favPaint();
+/* 心愿单初始化完毕，之后景区翻页/筛选重绘时就可以调 favPaint() 把收藏高亮补回来了 */
+favReady=true;
 
 /* ══ 全站搜索（Ctrl / ⌘ + K） ══ */
 const hEsc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -2698,6 +3269,10 @@ const SIDX=[];
 function jump(el){
   ovClose(q('#ovSearch'));
   if(!el)return;
+  /* 目标可能被整站翻页藏了起来，也可能被板块内分页藏了起来 —— 先把它露出来再滚 */
+  const sec=el.closest('section[id]');
+  if(sec&&isBook())go(sec.id,true);
+  revealEl(el);
   el.scrollIntoView({behavior:'smooth',block:'center'});
   el.classList.remove('flash');void el.offsetWidth;el.classList.add('flash');
   setTimeout(()=>el.classList.remove('flash'),2400);
@@ -2803,6 +3378,12 @@ addEventListener('keydown',e=>{
   if(e.key==='/'&&!typing&&!q('.ov.on')){e.preventDefault();sOpen();return;}
   if(e.key==='Escape'&&q('#ovSearch').classList.contains('on'))ovClose(q('#ovSearch'));
 });
+/* 覆盖层统一支持 Esc 关闭（全站搜索、心愿单……），焦点由 ovClose 交回原处 */
+addEventListener('keydown',e=>{
+  if(e.key!=='Escape')return;
+  const ov=qa('.ov.on')[0];
+  if(ov)ovClose(ov);
+});
 q('#ovSearch').addEventListener('click',e=>{
   if(e.target.closest('[data-ov-close]')||e.target.classList.contains('mask'))ovClose(q('#ovSearch'));
 });
@@ -2819,15 +3400,20 @@ function openModal(i){
     ['索道与二次收费',s.tk.cable],['开放时间',s.open],['建议时长',s.dur],
     ['预约方式',s.book],['怎么去',s.traf],['地址',s.addr]
   ].map(c=>'<div class="m-cell"><div class="k">'+c[0]+'</div><div class="v">'+c[1]+'</div></div>').join('');
-  q('#mBody').innerHTML=s.body.map(p=>'<p>'+p+'</p>').join('')+
-    '<ul class="m-points">'+s.pts.map(p=>'<li>'+p+'</li>').join('')+'</ul>'+
+  /* 详细介绍与游玩要点默认收起：弹窗一打开先给能直接用的信息（门票 / 预约 / 地址 / 按钮），
+     长文和清单想看再展开 */
+  q('#mBody').innerHTML=
+    '<details class="fold first"><summary>详细介绍<span class="fc">DETAIL</span></summary>'+
+      '<div class="fd-body">'+s.body.map(p=>'<p>'+p+'</p>').join('')+'</div></details>'+
+    '<details class="fold"><summary>游玩要点与避坑<span class="fc">TIPS · '+s.pts.length+' 条</span></summary>'+
+      '<div class="fd-body"><ul class="m-points">'+s.pts.map(p=>'<li>'+p+'</li>').join('')+'</ul></div></details>'+
     '<div class="m-lv">'+LV.map(l=>'<span class="'+(s[l[0]]?'on':'')+'">'+ic(l[1])+l[2]+'：'+(s[l[0]]?'友好':'不推荐')+'</span>').join('')+'</div>'+
     '<div class="m-acts">'+
       '<button class="mini-btn" id="mFav" data-mfav="'+s.k+'" aria-pressed="false"><svg><use href="#i-star"/></svg><span>加入心愿单</span></button>'+
-      '<a class="mini-btn solid" target="_blank" rel="noopener" href="https://uri.amap.com/marker?position='+s.lng+','+s.lat+'&name='+encodeURIComponent(s.name)+'">高德地图导航'+ic('i-ext')+'</a>'+
-      '<a class="mini-btn" target="_blank" rel="noopener" href="https://map.baidu.com/search/'+encodeURIComponent(s.name)+'">百度地图'+ic('i-ext')+'</a>'+
+      '<a class="mini-btn solid" target="_blank" rel="noopener noreferrer" href="https://uri.amap.com/marker?position='+s.lng+','+s.lat+'&name='+encodeURIComponent(s.name)+'">高德地图导航'+ic('i-ext')+'</a>'+
+      '<a class="mini-btn" target="_blank" rel="noopener noreferrer" href="https://map.baidu.com/search/'+encodeURIComponent(s.name)+'">百度地图'+ic('i-ext')+'</a>'+
       '<button class="mini-btn" id="mCopy"><svg><use href="#i-copy"/></svg>复制地址</button>'+
-      (needBook(s)?'<a class="mini-btn" target="_blank" rel="noopener" title="跳转搜索引擎，请认准景区官方渠道" href="https://www.baidu.com/s?wd='+encodeURIComponent(s.name+' 官方预约 门票')+'">查预约入口'+ic('i-ext')+'</a>':'')+
+      (needBook(s)?'<a class="mini-btn" target="_blank" rel="noopener noreferrer" title="跳转搜索引擎，请认准景区官方渠道" href="https://www.baidu.com/s?wd='+encodeURIComponent(s.name+' 官方预约 门票')+'">查预约入口'+ic('i-ext')+'</a>':'')+
       '<button class="mini-btn" data-close>关闭</button>'+
     '</div>';
   ovOpen(modal);
@@ -3103,9 +3689,22 @@ q('#dlIcs').addEventListener('click',()=>{
 });
 q('#dlPrint').addEventListener('click',()=>{
   const p=q('#prHead');
-  p.innerHTML='<b>京都小顾问 · '+curTab()+'</b><br><span>'+dstr(new Date())+' · 时间为建议值，票价与预约规则以官方为准</span>';
+  p.innerHTML='<b>北京旅行工具箱 · '+curTab()+'</b><br><span>'+dstr(new Date())+' · 时间为建议值，票价与预约规则以官方为准</span>';
   setTimeout(()=>window.print(),60);
 });
+/* 折叠面板在纸上没法点开，所以打印前全部展开、打印后恢复原样。
+   直接用 beforeprint/afterprint 事件，Ctrl+P 与按钮触发都会走到。 */
+(function(){
+  let was=[];
+  addEventListener('beforeprint',()=>{
+    was=qa('details').map(d=>({el:d,open:d.open}));
+    qa('details').forEach(d=>{d.open=true;});
+  });
+  addEventListener('afterprint',()=>{
+    was.forEach(r=>{r.el.open=r.open;});
+    was=[];
+  });
+})();
 
 /* ══ 地图当日路线 ══ */
 let RT=[];
@@ -3304,7 +3903,7 @@ const CHKK='jdxgw.chk.v1';
       if(p.cats.indexOf(s.cat)>=0)sc+=4;
       if(p.pref.indexOf(s.k)>=0)sc+=16;
       else if(p.q.indexOf(s.name.split(' ')[0])>=0)sc+=10;
-      if(p.mods.indoor&&/博物馆|美术馆|科技馆|艺术区/.test(s.name))sc+=8;
+      if(p.mods.indoor&&INDOOR.test(s.name))sc+=8;
       if(p.mods.indoor&&/长城|香山|欢乐谷|环球/.test(s.name))sc-=8;
       if(p.mods.easy&&/长城|香山|欢乐谷|环球/.test(s.name))sc-=8;
       if(p.mods.photo&&/798|首钢|红砖|三里屯|亮马河|白塔寺|景山/.test(s.name))sc+=5;
@@ -3407,9 +4006,9 @@ const CHKK='jdxgw.chk.v1';
       h+='<div class="tl-i"><span class="t">19:00</span><h4>晚餐 · '+esc(e.n)+'</h4><p>'+esc(e.t)+'</p></div></div>';
     });
     h+='</div>';
-    h+='<div class="ask-blk"><h4>住宿区域对比 <span>WHERE TO STAY</span></h4><div class="tbl-wrap"><table class="adv-tbl">'+
+    h+='<div class="ask-blk"><h4>住宿区域对比 <span>WHERE TO STAY</span></h4><div class="tbl-wrap"><table class="tbl adv-tbl">'+
        '<thead><tr><th>区域</th><th>地铁</th><th>参考价（每晚）</th><th>适合与取舍</th></tr></thead><tbody>'+
-       st.map((s,i)=>'<tr><td'+(i===0?' class="pk"':'')+'>'+esc(s.n)+(i===0?'<br><span class="mini">推荐</span>':'')+'</td><td class="mini">'+esc(s.line)+'</td><td>'+esc(s.price)+'</td><td><b>'+esc(s.fit)+'</b><br>'+esc(s.good)+'<br><span class="mini">注意：'+esc(s.bad)+'</span></td></tr>').join('')+
+       st.map((s,i)=>'<tr><td'+(i===0?' class="pk"':'')+'>'+esc(s.n)+(i===0?'<br><span class="mini">推荐</span>':'')+'</td><td class="mini" data-label="地铁">'+esc(s.line)+'</td><td data-label="参考价（每晚）">'+esc(s.price)+'</td><td data-label="适合与取舍"><b>'+esc(s.fit)+'</b><br>'+esc(s.good)+'<br><span class="mini">注意：'+esc(s.bad)+'</span></td></tr>').join('')+
        '</tbody></table></div><div class="note">参考价为常见区间，节假日普遍上浮；距离按直线估算，实际以导航为准。</div></div>';
     h+='<div class="ask-blk"><h4>说明与建议 <span>NOTES</span></h4><ul class="adv-list">'+advice(p,plan,st).map(a=>'<li>'+a+'</li>').join('')+'</ul></div>';
     h+='<div class="ask-acts"><button class="btn p" id="askSave">'+ic('i-check')+'生成行程单</button></div>';
